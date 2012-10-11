@@ -1,0 +1,415 @@
+﻿.topbg  , .x-nlg .topbg{background:url(../img/topbg.jpg) !important}
+.loginwin {background:url(../img/loginbg.jpg) right bottom no-repeat}
+.login_btn .x-btn-text {font:bold 14px arial}
+.pagehome {padding: 10px;line-height:200%;font-size:14px;background:url(../img/homebg.png) bottom right no-repeat}
+
+
+.gridtree .x-grid-row .x-grid-cell {border-bottom:#f7f7f7 solid 1px;padding:2px 0;font:bold 14px arial;color:#0265dc}
+.gridtree .x-grid-table {border-collapse:collapse}
+.gridtree .x-grid-tree-node-leaf .x-grid-cell {font:normal 12px arial;color:#000}
+
+/*机构*/
+.ico_jg_tree {background-image:url(../ico/jg_tree.png);}
+.ico_jg_manage {background-image:url(../ico/jg_manage.png);}
+.ico_jg_apply {background-image:url(../ico/jg_apply.png)}
+.ico_jg_confirm {background-image:url(../ico/jg_confirm.png)}
+.ico_jg_confirm_form {background-image:url(../ico/jg_confirm_form.png)}
+
+.ico_jg_project {background-image:url(../ico/jg_project.png)}
+.ico_jg_change {background-image:url(../ico/jg_change.png)}
+
+/*居家*/
+.ico_jj_tree {background-image:url(../ico/jj_tree.png);}
+.ico_jj_manage {background-image:url(../ico/jj_manage.png);}
+
+
+/**/
+.ico_home {background-image:url(../ico/home.png);}
+.ico_person {background-image:url(../ico/person.png)}
+.ico_nav {background-image:url(../ico/nav.png)}
+.ico_history {background-image:url(../ico/history.png)}
+
+
+
+
+
+
+
+div.normaltbl table {width:100%;border-collapse:collapse}
+div.normaltbl table td , div.normaltbl table th {border:#999 solid 1px;padding:6px}
+div.normaltbl table th {background:#eee}
+
+
+
+
+/*其他*/
+.icon_user {background-image:url(../ico/admin.png)}
+.icon_logout {background-image:url(../ico/old/logout.png);}
+.icon_manager {background-image:url(../ico/old/manager.png);}
+.icon_search {background-image:url(../ico/old/search.png);}
+.icon_export {background-image:url(../ico/old/export.png);}
+.icon_ok {background-image:url(../ico/old/ok.png);background-repeat:no-repeat;background-position:center}
+
+.icon_add {background-image: url(../ico/old/add.png);}
+.icon_delete {background-image: url(../ico/old/delete.png);}
+.icon_edit {background-image: url(../ico/old/edit.png);background-repeat:no-repeat;background-position:center}
+.icon_view {background-image: url(../ico/old/view.png);}
+.icon_save {background-image: url(../ico/old/save.png);}
+.icon_savemedium {background-image: url(../ico/old/save_medium.png);font:bold 14px arial}
+.icon_refresh {background-image: url(../ico/old/refresh.png);}
+.icon_cancel {background-image: url(../ico/old/cancel.png);}
+.icon_cancelmedium {background-image: url(../ico/old/cancel_medium.png);;font:bold 14px arial}
+.icon_print {background-image: url(../ico/old/print.gif);}
+/**/
+
+
+/**/
+
+
+
+.systemset {background-image:url(../ico/old/systemset.png);}
+.icon_baseinfo {background-image:url(../ico/old/baseinfo.png);}
+.icon_fire {background-image:url(../ico/old/fire.png);}
+.icon_password {background-image:url(../ico/old/password.png);}
+.icon_stat {background-image:url(../ico/old/chart.png)}
+.icon_ok_left {background-image:url(../ico/old/ok.png);background-repeat:no-repeat;background-position:3px 2px;padding-left:16px}
+
+
+.icon_about {background-image:url(../ico/old/about.png);}
+.icon_help {background-image:url(../ico/old/help.png);}
+
+.icon_fav {background-image:url(../ico/old/fav.png);}
+
+
+
+
+.icon_filter1 {background-image: url(../ico/old/filter1.gif);}
+.icon_satellite {background-image: url(../ico/old/satellite.png);}
+.icon_mapnormal {background-image: url(../ico/old/mapnormal.png);}
+
+.icon_article {background-image: url(../ico/old/article.png);}
+.icon_catalog {background-image: url(../ico/old/catalog.png);}
+.icon_dept {background-image: url(../ico/old/dept.png);}
+.icon_code {background-image: url(../ico/old/code.png);}
+.icon_db {background-image: url(../ico/old/db.png);}
+.icon_helps {background-image: url(../ico/old/helps.png);}
+.icon_news {background-image: url(../ico/old/news.png);}
+.icon_weather {background-image: url(../ico/old/weather.png);}
+.icon_dayinfo {background-image: url(../ico/old/diary.png);}
+.icon_edi {background-image: url(../ico/old/edi.png);}
+.icon_dbimport {background-image: url(../ico/old/dbimport.gif);}
+
+
+.icon_sensor {background-image: url(../ico/old/sensor.png);}
+.icon_camera {background-image: url(../ico/old/camera.png);}
+.icon_handset {background-image: url(../ico/old/handset.png);}
+
+
+.icon_drmap {background-image: url(../ico/old/drmap.png);}
+.icon_drchart {background-image: url(../ico/old/drchart.png);}
+.icon_drvideo {background-image: url(../ico/old/drvideo.png);}
+
+.icon_active {background-image: url(../ico/old/active.png);}
+.icon_videoadd {background-image: url(../ico/old/video_add.gif);}
+.icon_videodelete{background-image: url(../ico/old/video_delete.gif);}
+.icon_videoedit{background-image: url(../ico/old/video_edit.gif);}
+
+.icon_train {background-image: url(../ico/old/train.png);}
+
+.icon_message_empty {background-image: url(../ico/old/message.png);background-position:left center}
+.icon_message {background-image: url(../ico/old/message.gif);background-position:left top}
+.icon_message_title {background-image:url(../ico/old/article.png)}
+.icon_sms {background-image:url(../ico/old/sms.png)}
+
+
+
+.icon_message_list {background-image: url(../ico/old/message-list.png)}
+.icon_message_add {background-image: url(../ico/old/message-add.png)}
+.icon_message_edit {background-image: url(../ico/old/message-edit.png)}
+.icon_message_info {background-image: url(../ico/old/message-info.png)}
+
+
+
+.icon_up {background-image: url(../ico/old/up.png)}
+.icon_down {background-image: url(../ico/old/down.png)}
+
+
+
+.icon_Ship_medium {background-image: url(../ico/old/calendar_24.png);}
+.icon_Ship {background-image: url(../ico/old/calendar_16.png);}
+
+
+.icon_start_medium {background-image:url(../ico/old/start_m.png);}
+.icon_start {background-image:url(../ico/old/start.png);}
+.icon_rotate {background-image:url(../ico/old/rotate.png);}
+
+.icon_workflow {background-image:url(../ico/old/workflow.png)}
+.icon_starservices {background-image:url(../ico/old/starservices.png)}
+
+.message_defaultdo {margin:20px;padding:10px;padding-left:80px;line-height:200%;font-size:14px;background:url(../ico/old/message-confirm.png) left top no-repeat}
+
+/*船舶相关*/
+.icon_dynamictime {background-image: url(../ico/old/dynamictime.png)}
+.icon_changeberth  {background-image: url(../ico/old/changeberth.png)}
+.icon_shipnote {background-image: url(../ico/old/shipnote.gif)}
+.icon_shiptask {background-image: url(../ico/old/shiptask.png)}
+.icon_emphasis {background-image: url(../ico/old/flag_red.gif);background-repeat:no-repeat;background-position:center}
+
+
+.icon_exchange {background-image: url(../ico/old/exchange.png)}
+
+
+.emphasis_ship_lv1 .x-grid-rowwrap-div , .emphasis_ship_lv1 .x-grid-cell {background-color:#99ff99}
+.emphasis_ship_lv2 .x-grid-rowwrap-div , .emphasis_ship_lv2 .x-grid-cell {background-color:#ffcc00}
+.emphasis_ship_lv3 .x-grid-rowwrap-div , .emphasis_ship_lv3 .x-grid-cell {background-color:#ff6600}
+
+/*动态变更*/
+.icon_dynamic {background-image: url(../ico/old/dynamic.gif)}
+.ship_dynamic_change .x-grid-cell {color:blue}
+
+.plan_change .x-grid-cell {color:red}
+
+/*审批状态图标*/
+.icon_nosend {background-image: url(../ico/old/sp_nosend.gif)}
+.icon_send {background-image: url(../ico/old/sp_send.gif)}
+.icon_sendsucc {background-image: url(../ico/old/sp_sendsucc.gif)}
+.icon_sendfail {background-image: url(../ico/old/sp_sendfail.gif)}
+
+
+/*执行计划*/
+.icon_execplan {background-image: url(../ico/old/execplan.png)}
+.icon_execplanreport {background-image: url(../ico/old/report.png)}
+
+
+.icon_matter {background-image: url(../ico/old/matter.png)}
+.icon_3dmap{background-image: url(../ico/old/3dmap.png)}
+
+
+/*---其他的CS---*/
+.plantips {
+	padding:5px
+}
+
+.plantips .list_item {
+	padding:5px;
+	border-bottom:1px solid #ccc;
+	font: 12px arial;
+	line-height:200%;
+	cursor:pointer
+}
+
+.plantips .list_item_hover {
+	background:#e8f4ff;
+	border-bottom:#0265dc solid 1px
+}
+
+.side_list {
+    padding: 5px;
+}
+
+.side_list_item {
+    margin-bottom: 5px;
+	text-align:center;
+    padding: 10px;
+    font-size: 12px;
+    line-height: 20px;
+    cursor: pointer;
+    border: 2px solid #fff;
+	font: bold 16px 微软雅黑;
+	border-bottom:1px dotted #a3bae9;
+	color:#333;
+}
+.side_list_item img {
+}
+
+.side_list_item p{
+	display:none;
+	margin-bottom:10px
+}
+
+.side_list .x-item-selected {
+    font1-weight: bold; 
+    color: #ff6600;
+    background-color1: #DFE8F6;
+    border: #ff6600 solid 2px;
+    margin-bottom: 4px;
+}
+
+.side_list_item_hover {
+    background-color: #ffffee;
+	border:#0265dc solid 2px;
+	color:#0265dc;
+    margin-bottom: 4px;
+}
+
+
+.haspreview .x-grid-rowbody , .article_grid .x-grid-rowbody {
+	border-top:#eee solid 1px;
+	padding:5px 5px 5px 20px;
+    margin1: 5px 10px 10px 5px;
+	line-height:160%;
+    color: #555;
+    font-size: 12px;
+}
+
+.testpreview .x-grid-rowbody {
+	border-top:#eee solid 1px;
+	padding:5px 5px 5px 38px;
+    margi1n: 5px 10px 10px 5px;
+	line-height:160%;
+    color: #555;
+    font-size: 12px;
+	background-image: url(../ico/old/active.png);
+	background-position: 15px center;
+	background-repeat:no-repeat
+}
+
+
+.ajaxfailure {padding:10px;color:red;line-height:200%;font-size:14px}
+
+.flowcon {border:#ccc dotted 1px;border-left:0;border-right:0;padding:10px;margin:10px 0;text-align:center;vertical-align:top}
+.flowcon .stepnum {float:left;font:bold 26px arial;color:#ff6600;font-style: italic}
+.stephover , .stepactive {background:#ffffcc;border-color:#ff6600;border-style:solid;cursor:pointer}
+
+.flowitem {display:inline-block;padding:14px;border:green solid 1px;margin:0 5px;width:200px;font:bold 14px arial}
+.flowhover , .flowactive{border-color:green;background:green;color:#fff;cursor:pointer}
+
+.flowarrow {height:32px;background:url(../img/flowdown.png) no-repeat center center}
+
+
+
+
+.bodypreview .x-grid-rowbody {
+    margin: 0px 0px 0px 0 !important;
+	padding-left:20px;
+    color: #666;
+    font-size: 12px;
+	line-height:160%;
+	padding:5px 5px 5px 38px;
+	background: url(../img/gridbody_bg.gif) repeat-y 
+}
+
+
+.btn_medium .x-btn-inner{font-weight:bold;font-size:14px}
+
+
+/*EXTcss*/
+/*tab icon bug*/
+
+/*
+.x-tab-icon{
+  background-position: 0 -1px !important;
+}
+.x-tab-default-icon-text-left button{
+  height:16px !important;
+}
+.x-tab-default-icon-text-left *{
+  height:16px !important;
+}  
+*/
+
+
+.x-grid-row-alt1 .x-grid-cell,.x-grid-row-alt .x-grid-rowwrap-div{background-color:#e8e8e8}
+.x-grid-row-over .x-grid-rowwrap-div{border-color:#dddddd;background-color:#ffffcc}
+.x-grid-row-over .x-grid-cell {}
+.x-grid-row-summary {background:#eee}
+.x-grid-row-summary .x-grid-cell-inner  {font-weight:bold}
+
+
+.jbgrid .x-grid-row-over .x-grid-cell {font-weight:bold;background-color:none !important}
+.jbgrid .x-grid-row-over .x-grid-rowwrap-div {background-color:none}
+.jbgrid .x-grid-row-selected .x-grid-rowwrap-div{font-weight:bold;background-color:none}
+.jbgrid .x-grid-row-focused .x-grid-cell {font-weight:bold}
+.jbgrid-row1-selected .x-grid-cell {font-weight:bold}
+
+
+/*消息处理相关*/
+.message_body {margin:20px;padding:20px;line-height:200%;font-size:14px;}
+.tbl_simple {border-collapse:collapse}
+.tbl_simple td {border:#000 solid 1px;padding:5px}
+.message_body .btn_con {text-align:right1}
+.message_body .btn_con input {padding:5px;}
+
+.tbl_normal {border-collapse:collapse;width:100%}
+.tbl_normal td {border:#000 solid 1px;padding:1px 5px}
+
+
+.splitpanel .x-splitter-vertical {border:#99BCE8 solid 1px;border-top:0;border-bottom:0}
+.splitpanel .x-splitter-horizontal {border:#99bce8 solid 1px;border-left:0;border-right:0}
+.splitpanel .x-splitter-collapsed {border-right-width:0;border-bottom-width:0px}
+
+.splitpanel .collapsed_west {border-left-width:0;border-right-width:1px}
+.splitpanel .collapsed_east {border-left-width:0;border-right-width:1px}
+
+.mini_collapsed_east {border:#99BCE8 solid 1px;border-left:0}
+.mini_collapsed_west {border:#99BCE8 solid 1px;border-right:0}
+
+
+
+
+.splitpanel1 .x-splitter-horizonta1 {border:#99BCE8 solid 1px;border-left:0;border-right:0}
+.splitpanel .x-toolbar-footer-docked-bottom {border-top:#99bce8 solid 1px}
+
+.dock_tip , .dock_tip_tb , .dock_tip_b , .dock_tip_noborder {background:url(../ico/old/warning.gif) no-repeat 10px 8px #ffffee;padding:5px;padding-left:30px;line-height:180%;}
+.dock_tip_tb , .dock_tip_b {border-left:0;border-right:0;}
+.dock_tip_b {border-top:0;}
+.dock_tip_noborder {border:0}
+.emptypanel {font:20px 微软雅黑;padding:20px;color:blue}
+
+.x-grid-row-focused  .cell_editor , 
+.x-grid-row-selected .cell_editor , 
+.x-grid-row-alt .cell_editor , 
+.cell_editor {background-color:#ffffaa !important;cursor:pointer}
+
+.x-grid-row-focused  .cell_empty , 
+.x-grid-row-selected .cell_empty , 
+.x-grid-row-alt .cell_empty , 
+.cell_empty {background-image:url(../img/cell_empty.gif)}
+
+.planzql_err , .x-grid-row-alt .planzql_err {background:#feddc8;}
+
+/*popmsg*/
+.msg .x-box-mc {
+    font-size:14px;
+}
+#msg-div {
+    position:absolute;
+    left:35%;
+    top:10px;
+    width:300px;
+    z-index:20000;
+}
+#msg-div .msg {
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    background: #F6F6F6;
+    border: 2px solid #ccc;
+    margin-top: 2px;
+    padding: 10px 15px;
+    color: #555;
+}
+#msg-div .msg h3 {
+    margin: 0 0 8px;
+    font-weight: bold;
+    font-size: 15px;
+}
+#msg-div .msg p {
+    margin: 0;
+}
+
+
+
+
+
+/*事项详细信息*/
+.wrap_matterdetail {}
+.wrap_matterdetail h3 {padding:10px;background:#e8f4ff;font-weight:bold}
+.wrap_matterdetail h3 span {float:right}
+.wrap_matterdetail div.wrap {padding:8px}
+.wrap_matterdetail table {width:100%;border-collapse:collapse;font:12px arial}
+.wrap_matterdetail table td {padding:3px}
+.wrap_matterdetail table.normal td {border-bottom:#eee dotted 1px}
+
+.wrap_matterdetail table.grid .thead {background:#eee;font-weight:bold}
+.wrap_matterdetail table.grid td {padding:5px;border-bottom:#ddd solid 1px}
+

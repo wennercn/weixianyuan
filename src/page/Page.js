@@ -3,11 +3,15 @@
 		alias: 'wd.page' ,
 		initComponent: function(){
 
-			this.custombar = Ext.create('WXY.page.TopBar', {
+			this.logobar = Ext.create('WXY.page.LogoBar', {
 				listeners: {
 					"menuclick": this.onBarClick ,
 					scope: this
 				}
+			});
+
+			this.statusbar = Ext.create('WXY.page.StatusBar' , {
+
 			});
 			
 			/*
@@ -31,7 +35,8 @@
 				padding:0 ,
 				//border: false ,
 				dockedItems:[
-					this.custombar
+					this.logobar , 
+					this.statusbar
 				] ,
 				items: [
 					//this.leftnav ,

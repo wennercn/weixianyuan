@@ -13,7 +13,7 @@ Ext.apply(Ext.Date , {
 
         switch(util.toLowerCase()) {
             case Ext.Date.MILLI:
-				diff = diff;
+				//diff = diff;
                 break;
             case Ext.Date.SECOND:
                 diff = dif / 1000;
@@ -36,10 +36,10 @@ Ext.apply(Ext.Date , {
         }
 		return diff;
 	}
-})
+});
 
 
-var wsurl = "ws/default.asp"
+var wsurl = "ws/default.asp";
 /*
 	转换参数
 */
@@ -54,13 +54,13 @@ function $back(obj , type){
 	this.isok = false;
 	this.getErrorInfo = function(){
 		return this.errinfo;
-	}
+	};
 	this.getMsg = function(){
 		return this.msg;
-	}
+	};
 	this._data = obj;
 	if (obj.responseText && Ext.isEmpty(obj.responseText)){
-		this.errinfo = "未返回任何数据,请检查程序!"
+		this.errinfo = "未返回任何数据,请检查程序!";
 		return this;
 	}
 	if (type== "json"){
@@ -71,8 +71,8 @@ function $back(obj , type){
 		    return this;
 	    }
 
-	    this.jdata = {}
-	    Ext.apply(this.jdata , bd)
+	    this.jdata = {};
+	    Ext.apply(this.jdata , bd);
 	    if ($chk(jdata.code)){
 		    switch (jdata.code){
 		    //	case : ""
@@ -99,17 +99,17 @@ function $back(obj , type){
 			return this;
 		}
 	    this.xdata = bd;
-	    var status = root.getAttribute("status")
+	    var status = root.getAttribute("status");
 	    if (status !="true"){
 	        this.errinfo = root.getAttribute("message");
-	        return this
+	        return this;
 	    }
 	    this.isok = true;
 		this.serverdate = Ext.Date.parse(root.getAttribute("serverdate") , "Y-m-d H:i:s");
 		if (WXY.App != undefined) {
 			WXY.App.ServerDate = this.serverdate;
 		}
-	    this.msg = root.getAttribute("message")
+	    this.msg = root.getAttribute("message");
 	    this.data =Ext.DomQuery.selectNode("data" , bd);
 	}
 	return this;
@@ -126,16 +126,16 @@ function $failure(o , fn){
 
 function $failurebody (o , el){
 	if (el.setLoading) el.setLoading(false);
-	el.body.update("<div class='ajaxfailure'>错误:<br>"+o.responseText.replace("\n" , "<br>")+"</div>")
+	el.body.update("<div class='ajaxfailure'>错误:<br>"+o.responseText.replace("\n" , "<br>")+"</div>");
 	MB.hide();
 }
 
 function $parseCreateError(err){
 	var e = err;
-	var title = "" , msg = e.message || e.msg, errs = [];
+	var msg = e.message || e.msg, errs = [];
 	if (msg.indexOf("Cannot create")>-1) errs.push("不能创建实例,可能没加载文件!");
 	if (msg.indexOf("Failed loading")>-1) errs.push("加载文件错误!");
-	if (msg.indexOf("The following classes are not declared") >-1) errs.push("加载的文件中没有包括下面的类名称!")
+	if (msg.indexOf("The following classes are not declared") >-1) errs.push("加载的文件中没有包括下面的类名称!");
 	MB.alert("错误" , "创建消息处理组件出现错误!<br>"+e.name+"<br>"+e.message);
 }
 
@@ -154,7 +154,7 @@ MB.loading = function(msg , title){
 
 //popmsg
 PM = function(){
-    var msgCt;
+    var msgCt = null;
 
     function createBox(t, s){
        // return ['<div class="msg">',
@@ -175,7 +175,7 @@ PM = function(){
             m.hide();
             m.slideIn('t').ghost("t", { delay: 1000, remove: true});
         }
-	}
+	};
 }();
 
 //combo
@@ -185,10 +185,10 @@ Ext.define("Ext.ux.myCombo" , {
 		//数字增长序_data
 		//this._data = []
 		if (this.minNumber != undefined && this.maxNumber != undefined){
-			this._data=[]
+			this._data=[];
 			var step = this.step || 1;
 			for (var k = this.minNumber ; k<=this.maxNumber ; k=(k*100+step*100)/100 ){
-				this._data.push([k , k+(this.unit || "")])
+				this._data.push([k , k+(this.unit || "")]);
 			}
 		}
 		//定义STORE
@@ -263,7 +263,7 @@ Ext.define("Ext.ux.myCombo" , {
 		this.callParent();
 	} ,
 	setValue1: function(v){
-		alert(this.store.state)
+		alert(this.store.state);
 		if(this.store.state != 'loaded'){
 			this.store.on('load', Ext.bind(this.setValue , this , arguments) , null, {single: true});
 			if(this.store.state != 'loading'){
@@ -274,7 +274,7 @@ Ext.define("Ext.ux.myCombo" , {
 			this.callParent(v);
 		}
 	}
-})
+});
 
 //加.XML属性
 if( document.implementation.hasFeature("XPath", "3.0")){
@@ -356,7 +356,7 @@ Ext.ux.FormatNumber = function(srcStr,nAfterDot,dotforempty){
         resultStr = srcStr;
 		if (!dotforempty) return resultStr;
         resultStr = srcStr+".";
-        for (i=0;i<nAfterDot;i++){
+        for (var i=0;i<nAfterDot;i++){
             resultStr = resultStr+"0";
         }
         return resultStr;
@@ -371,13 +371,13 @@ Ext.ux.FormatNumber = function(srcStr,nAfterDot,dotforempty){
         return resultStr;
         } else{
             resultStr = srcStr;
-            for (i=0;i<(nAfterDot - strLen + dotPos + 1);i++){
+            for (var i=0;i<(nAfterDot - strLen + dotPos + 1);i++){
                 resultStr = resultStr+"0";
             }
             return resultStr;
         }
     }
-}
+};
 
 
 
@@ -390,7 +390,7 @@ function json2xml(vs , nodename){
 	var singlenode = function(node , nodename){
 		var tmp = [];
 		for (var key in node){
-			var n = node[key]
+			var n = node[key];
 			var v = n || "";
 			v = v.toString();
 			v = v.replace(/\&/ig , "&apm;");
@@ -401,18 +401,19 @@ function json2xml(vs , nodename){
 			tmp.push(key +"=\""+v+"\"");
 		}
 		return"<R "+tmp.join(" ")+"></R>";
-	}
+	};
+	
 	var arr = [];
 	//如果是数组
 	if (Ext.isArray(vs)){
 		for (var i = 0 ; i<vs.length ; i++ ){
-			var n = vs[i]
+			var n = vs[i];
 			arr.push(singlenode(n));
 		}
 	}else{
 		arr.push(singlenode(vs , nodename));
 	}
-	arr = "<"+(nodename || "data")+">"+arr.join("")+"</"+(nodename || "data")+">"
+	arr = "<"+(nodename || "data")+">"+arr.join("")+"</"+(nodename || "data")+">";
 	return arr;
 }
 

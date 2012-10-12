@@ -7,7 +7,7 @@
 			run: function(){
 				this.ServerDate = Ext.Date.add(this.ServerDate , Ext.Date.SECOND , 1);	
 			},
-			interval: 1000 , 
+			interval: 1000 ,
 			scope: this
 		});
 		Ext.QuickTips.init();
@@ -20,12 +20,14 @@
 	start: function(){
 		this.hideDomLoad();
 		this.page = Ext.create('WXY.page.ViewPort' , {
+			
 		});
 	} , 
-	
 	hideDomLoad: function(){
 		if (Ext.get("loading")) Ext.get('loading').fadeOut({remove:true});
-		if (Ext.get('loading-mask')) Ext.get('loading-mask').fadeOut({remove:true});	
+		if (Ext.get('loading-mask')){
+			Ext.get('loading-mask').fadeOut({remove:true});	
+		}
 	}	
 
 });

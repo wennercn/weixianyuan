@@ -4,7 +4,7 @@ Ext.Loader.setPath({
 	'WXY' : 'src' ,
 	'Ext' : 'jslib/ext'
 });
-Ext.BLANK_IMAGE_URL = "ext/resources/s.gif";
+Ext.BLANK_IMAGE_URL = "jslib/ext/resources/s.gif";
 Ext.require([
 	'WXY.App' , 
 	'WXY.Common' ,  

@@ -1,5 +1,5 @@
 ﻿ /*主菜单*/
-Ext.define('WXY.page.TopBar' , {
+Ext.define('WXY.page.LogoBar' , {
 	extend: 'Ext.toolbar.Toolbar',
 	alias: 'wd.custombar' ,
 	id:"custombar" ,

@@ -1,6 +1,6 @@
 ﻿Ext.define('WXY.App' , {
 	singleton: true,
-  constructor: function(config) {
+  	constructor: function(config) {
 		this.HomeModule = "gis.Index";
 		this.ServerDate = new Date();
 		Ext.TaskManager.start({

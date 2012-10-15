@@ -1,13 +1,13 @@
 ﻿ /*主菜单*/
 Ext.define('WXY.page.LogoBar' , {
 	extend: 'Ext.toolbar.Toolbar',
-	alias: 'wd.custombar' ,
-	id:"custombar" ,
+	alias: 'wd.logobar' ,
+	id:"logobar" ,
+	cls:'logobar' , 
 	initComponent: function(){
 		Ext.apply(this, {
 			cls:"topbg" ,
-			border:"0 0 0 0" ,
-			border:false ,
+			//border:false ,
 			defaults: {
 				//scale: 'medium',
 				textAlign:"center" ,
@@ -21,96 +21,49 @@ Ext.define('WXY.page.LogoBar' , {
 			} ,
 			items: [
 				'->' ,
-				/*
-				{text:"流程模板管理" ,  iconCls:"icon_workflow" , module:"WorkFlowTemplate.Home"} , '-' ,
-
-				{text:"昼夜预编计划" , iconCls:"icon_yubian" , menu:{
-					items: [
-						{text:"分计划员确认" , module:"Plan.DayPlan.FenJiHua" , handler:this.onClick , scope:this} ,
-						'-' ,
-						{text:"航线计划员确认" , module:"Plan.DayPlan.HangXian" ,handler:this.onClick , scope:this} ,
-						{text:"综合计划员确认" , module:"Plan.DayPlan.ZongHe" ,  handler:this.onClick , scope:this}
+				{iconCls:"ico_gis" , text:"监控地图" , module:"gis.Index"} , '-' ,
+				{iconCls:'ico_article' , text:'知识库' , module1:'article.Window' , menu:{
+					defaults: {scope:this , handler:this.onClick , isWindow:true} , 
+					items:[
+						{text:'常见危险化学品理化性质表' , module:"article.Window" , moduleConfig:{type:"常见危险化学品理化性质表"}} , 
+						{text:'常见危险化学品事故处置程序' , module:"article.Window" , moduleConfig:{type:"常见危险化学品事故处置程序"}} , 
+						{text:'常见危化品事故救援人员防护措施' , module:"article.Window" , moduleConfig:{type:"常见危化品事故救援人员防护措施"}} , 
+						{text:'危化品中毒人员救治措施' , module:"article.Window" , moduleConfig:{type:"危化品中毒人员救治措施"}}
 					]
-				}} ,
-				*/
-				///{text:"<b>下达动态</b>" ,  iconCls:"icon_start" , module:"Plan.Create" , hidden: emp_id == "1" ? false : true} , {xtype: 'tbseparator' , hidden: emp_id == "1" ? false : true},
-				//{text:"电子口岸导入" ,  iconCls:"icon_dbimport" , module:"EDI.ImportData" , hidden: emp_id == "1" ? false : true} ,
-				//{xtype: 'tbseparator' , hidden: emp_id == "1" ? false : true},
-				{iconCls:"ico_home" , text:"首页" , module:"page.Home"} , '-' ,
-				//{text:"我的桌面" , iconCls:"icon_desktop" , module:"Desktop" , handler:this.onClick , scope:this} , '-' ,
-				{
-					iconCls:"icon_bar_rsview" ,
-					text:"<b>监控预警</b>" ,
-					module:"GIS" ,
-					handler: this.onClick ,
-					method:"loadData" ,
-					scope:this ,
-					xtype:"splitbutton" ,
-					menu:{
-						items: [
-							{text:"GIS地图监控" , module:"GIS"} ,
-							{text:"视频监控"}
-						]
-					}
-				} ,'-' , {
-					iconCls:"icon_bar_checkin" ,
-					text:"数据采集" ,
-					//module:"Demand" ,
-					handler: this.onClick ,
-					scope:this
-				} ,  '-' , {
-					iconCls:"icon_bar_balance" ,
-					text:"数据分析" ,
-					//module:"Demand" ,
-					handler: this.onClick ,
-					xtype:"splitbutton" ,
-					scope:this ,
-					menu: {
-						items:[
+				}} , '-' , 
+				{iconCls:'ico_preplan' , text:'应急预案'} , '-' , 
+				{iconCls:"ico_baseinfo" ,text:"基础数据" , menu:{
+					items:[
+						{text:'重大危险源分级'} , 
+						'-' , 
+						{text:'传感器管理'} , 
+						'-' , 
+						{text:'事故相应级别管理'} , 
+						{text:'企业基本信息'}
+					]
+				}} , '-' ,
+				{iconCls:"ico_stat" ,text:"数据分析" , menu: {
+					items:[
 						{text:"数据统计分析"} ,
 						{text:"事故后果模拟"} ,
 						{text:"人员疏散模拟"} ,
 						{text:"应急过程日志及评价"}
+					]}
+				} ,  '-' , 
 
-						]
-					}
-				} ,  '-' , {
-					iconCls:"icon_plan_vip" ,
-					text:"<b>应急预案库</b>" ,
-					module:"Demand" ,
-					handler: this.onClick ,
-					scope:this
-				} ,  '-' , {
-					iconCls:"icon_schedule" ,
-					text:"<b>基础数据库</b>" ,
-					module:"BaseInfo" ,
-					handler: this.onClick ,
-					scope:this
-				} ,  '-' , {
-					text:"系统设置" ,
-					iconCls:"icon_bar_sys" ,
-					module:"SysInfo" ,
-					handler:this.onClick ,
-					scope:this ,
-					xtype:"splitbutton" ,
-					menu:{
-						items: [
-							{text:"系统基本设置" , iconCls:"icon_baseinfo" , module:"SysInfo" , handler:this.onClick , scope:this} , '-' ,
-							{text:"人员管理" , iconCls:"icon_opera" , tooltip:"人员管理" , module:"Manager" , handler:this.onClick , scope:this} , '-' ,
-							{text:"数据备份/还原"} ,
-							{text:"查看系统日志"} ,
-							'-' ,
-							{text:"使用帮助" , iconCls:"icon_help" , page:"help" , handler:this.gourl , scope:this} ,
-							{text:"关于本系统" , iconCls:"icon_about" ,  handler1:this.about , scope:this.parent}
-
-						]
-					}
-				} ,
-
-				//{iconCls:"icon_user" , text: '你好 , <b>'+WXY.admin.Admin.Name+'</b> !'} ,'-' ,
-				//{text:"修改密码" , iconCls:"icon_password"} , '-' ,
-				{text:"退出" , iconCls:"icon_logout" , handler:function(){
-					WXY.admin.Admin.logout();
+				{iconCls:"ico_setting" , text:"系统设置" , menu:{
+					items: [
+						{text:"系统基本设置" , iconCls:"icon_baseinfo" , module:"SysInfo" , handler:this.onClick , scope:this} , '-' ,
+						{text:"人员管理" , iconCls:"icon_opera" , tooltip:"人员管理" , module:"Manager" , handler:this.onClick , scope:this} , '-' ,
+						{text:"数据备份/还原"} ,
+						{text:"查看系统日志"} ,
+						'-' ,
+						{text:"使用帮助" , iconCls:"icon_help" , page:"help" , handler:this.gourl , scope:this} ,
+						{text:"关于本系统" , iconCls:"icon_about" ,  handler1:this.about , scope:this.parent}
+					]}
+				} , '-' ,
+				{text:"退出" , iconCls:"ico_logout" , handler:function(){
+					$ADMIN.logout();
 				} , scope:this} , ' '
 			]
 		});
@@ -119,7 +72,7 @@ Ext.define('WXY.page.LogoBar' , {
 		);
 		this.callParent(arguments);
 
-		this.on("render" , this.initMenu , this);
+		//this.on("render" , this.initMenu , this);
 
 	} ,
 	onClick: function(menu , e){
@@ -128,6 +81,8 @@ Ext.define('WXY.page.LogoBar' , {
 	} ,
 
 
+	//onrender 读取当前用户的菜单
+	//已取消 , 这样读取速度太慢 , 显示不友好
 	initMenu: function(){
 		/*
 		if (WXY.admin.Admin.Code == "admin"){
@@ -176,6 +131,7 @@ Ext.define('WXY.page.LogoBar' , {
 			interval: 1000*30
 		});
 	} ,
+
 	//获取消息
 	getMessage: function(){
 		Ext.Ajax.request({

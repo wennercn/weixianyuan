@@ -1,12 +1,67 @@
-﻿.topbg  , .x-nlg .topbg{background:url(../img/topbg.jpg) !important}
-.loginwin {background:url(../img/loginbg.jpg) right bottom no-repeat}
-.login_btn .x-btn-text {font:bold 14px arial}
-.pagehome {padding: 10px;line-height:200%;font-size:14px;background:url(../img/homebg.png) bottom right no-repeat}
+﻿
+/*
+公共的图标 , 所在文件夹: common
+*/
+.ico_add {background-image: url(../ico/common/add.png);}
+.ico_delete {background-image: url(../ico/common/delete.png);}
+.ico_edit {background-image: url(../ico/common/edit.png);background-repeat:no-repeat;background-position:center}
+.ico_view {background-image: url(../ico/common/view.png);}
+.ico_save {background-image: url(../ico/common/save.png);}
+.ico_savemedium {background-image: url(../ico/common/save_medium.png);font:bold 14px arial}
+.ico_cancel {background-image: url(../ico/common/cancel.png);}
+.ico_cancelmedium {background-image: url(../ico/common/cancel_medium.png);;font:bold 14px arial}
+.ico_print {background-image: url(../ico/common/print.gif);}
+.ico_password {background-image:url(../ico/common/password.png);}
+.ico_refresh {background-image: url(../ico/common/refresh.png);}
+.ico_export {background-image:url(../ico/common/export.png);}
+.ico_ok {background-image:url(../ico/common/ok.png);background-repeat:no-repeat;background-position:center}
+.ico_search {background-image:url(../ico/common/search.png);}
+
+.ico_home {background-image:url(../ico/common/home.png);}
+.ico_about {background-image:url(../ico/common/about.png);}
+.ico_help {background-image:url(../ico/common/help.png);}
+.ico_warning {background-image:url(../ico/common/warning.png);}
+.ico_admin {background-image:url(../ico/common/admin.png) !important}
+.ico_logout {background-image:url(../ico/common/logout.png)}
+.ico_login {background-image:url(../ico/common/login.png)}
+.ico_tools {background-image:url(../ico/common/tools.png);}
+.ico_setting {background-image:url(../ico/common/setting.png);}
+.ico_system {background-image:url(../ico/common/system.png);}
+.ico_tip {background-image:url(../ico/common/tip.png);}
+.ico_filter {background-image: url(../ico/common/filter.png);}
+.ico_upload {background-image: url(../ico/common/upload.png);}
+
+.ico_play {background-image: url(../ico/common/play.png);}
+.ico_pause {background-image: url(../ico/common/pause.png);}
+
+.ico_back {background-image: url(../ico/common/back.png);}
 
 
-.gridtree .x-grid-row .x-grid-cell {border-bottom:#f7f7f7 solid 1px;padding:2px 0;font:bold 14px arial;color:#0265dc}
-.gridtree .x-grid-table {border-collapse:collapse}
-.gridtree .x-grid-tree-node-leaf .x-grid-cell {font:normal 12px arial;color:#000}
+.ico_sendmail {background-image: url(../ico/common/sendmail.png);}
+
+
+/*GIS 地图*/
+.ico_gis {background-image:url(../ico/gis/gis.png);}
+
+/*ARTICLE 知识库*/
+.ico_article {background-image:url(../ico/article/article.png);}
+
+/*Baseinfo 基础信息*/
+.ico_baseinfo {background-image:url(../ico/baseinfo/baseinfo.png);}
+
+/*stat 统计*/
+.ico_stat {background-image:url(../ico/stat/stat.png);}
+
+/*setting 系统设置*/
+.ico_setting {background-image:url(../ico/setting/setting.png);}
+
+/*preplan 应急预案*/
+.ico_preplan {background-image:url(../ico/preplan/preplan.png);}
+
+/*监控状态*/
+.ico_status_ok {background-image:url(../ico/status/ok.gif);}
+
+
 
 /*机构*/
 .ico_jg_tree {background-image:url(../ico/jg_tree.png);}
@@ -42,45 +97,14 @@ div.normaltbl table th {background:#eee}
 
 
 
-/*其他*/
-.icon_user {background-image:url(../ico/admin.png)}
-.icon_logout {background-image:url(../ico/old/logout.png);}
-.icon_manager {background-image:url(../ico/old/manager.png);}
-.icon_search {background-image:url(../ico/old/search.png);}
-.icon_export {background-image:url(../ico/old/export.png);}
-.icon_ok {background-image:url(../ico/old/ok.png);background-repeat:no-repeat;background-position:center}
-
-.icon_add {background-image: url(../ico/old/add.png);}
-.icon_delete {background-image: url(../ico/old/delete.png);}
-.icon_edit {background-image: url(../ico/old/edit.png);background-repeat:no-repeat;background-position:center}
-.icon_view {background-image: url(../ico/old/view.png);}
-.icon_save {background-image: url(../ico/old/save.png);}
-.icon_savemedium {background-image: url(../ico/old/save_medium.png);font:bold 14px arial}
-.icon_refresh {background-image: url(../ico/old/refresh.png);}
-.icon_cancel {background-image: url(../ico/old/cancel.png);}
-.icon_cancelmedium {background-image: url(../ico/old/cancel_medium.png);;font:bold 14px arial}
-.icon_print {background-image: url(../ico/old/print.gif);}
-/**/
-
 
 /**/
-
-
-
 .systemset {background-image:url(../ico/old/systemset.png);}
 .icon_baseinfo {background-image:url(../ico/old/baseinfo.png);}
 .icon_fire {background-image:url(../ico/old/fire.png);}
 .icon_password {background-image:url(../ico/old/password.png);}
 .icon_stat {background-image:url(../ico/old/chart.png)}
 .icon_ok_left {background-image:url(../ico/old/ok.png);background-repeat:no-repeat;background-position:3px 2px;padding-left:16px}
-
-
-.icon_about {background-image:url(../ico/old/about.png);}
-.icon_help {background-image:url(../ico/old/help.png);}
-
-.icon_fav {background-image:url(../ico/old/fav.png);}
-
-
 
 
 .icon_filter1 {background-image: url(../ico/old/filter1.gif);}
@@ -396,20 +420,4 @@ div.normaltbl table th {background:#eee}
 #msg-div .msg p {
     margin: 0;
 }
-
-
-
-
-
-/*事项详细信息*/
-.wrap_matterdetail {}
-.wrap_matterdetail h3 {padding:10px;background:#e8f4ff;font-weight:bold}
-.wrap_matterdetail h3 span {float:right}
-.wrap_matterdetail div.wrap {padding:8px}
-.wrap_matterdetail table {width:100%;border-collapse:collapse;font:12px arial}
-.wrap_matterdetail table td {padding:3px}
-.wrap_matterdetail table.normal td {border-bottom:#eee dotted 1px}
-
-.wrap_matterdetail table.grid .thead {background:#eee;font-weight:bold}
-.wrap_matterdetail table.grid td {padding:5px;border-bottom:#ddd solid 1px}
 

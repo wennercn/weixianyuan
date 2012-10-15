@@ -181,6 +181,7 @@ PM = function(){
 //combo
 Ext.define("Ext.ux.myCombo" , {
 	extend: "Ext.form.field.ComboBox" ,
+    alias: 'widget.mycombo',	
     initComponent: function(){
 		//数字增长序_data
 		//this._data = []
@@ -390,10 +391,10 @@ function json2xml(vs , nodename){
 	var singlenode = function(node , nodename){
 		var tmp = [];
 		for (var key in node){
-			var n = node[key];
-			var v = n || "";
+			var n = node[key]
+			var v = Ext.isEmpty(n) ? "" : n;
 			v = v.toString();
-			v = v.replace(/\&/ig , "&apm;");
+			v = v.replace(/\&/ig , "&amp;");
 			v = v.replace(/\</ig , "&lt;");
 			v = v.replace(/\>/ig , "&gt;");
 			v = v.replace(/\"/ig , "&quot;");
@@ -401,19 +402,18 @@ function json2xml(vs , nodename){
 			tmp.push(key +"=\""+v+"\"");
 		}
 		return"<R "+tmp.join(" ")+"></R>";
-	};
-	
+	}
 	var arr = [];
 	//如果是数组
 	if (Ext.isArray(vs)){
 		for (var i = 0 ; i<vs.length ; i++ ){
-			var n = vs[i];
+			var n = vs[i]
 			arr.push(singlenode(n));
 		}
 	}else{
 		arr.push(singlenode(vs , nodename));
 	}
-	arr = "<"+(nodename || "data")+">"+arr.join("")+"</"+(nodename || "data")+">";
+	arr = "<"+(nodename || "data")+">"+arr.join("")+"</"+(nodename || "data")+">"
 	return arr;
 }
 

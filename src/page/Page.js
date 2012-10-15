@@ -11,7 +11,10 @@
 			});
 
 			this.statusbar = Ext.create('WXY.page.StatusBar' , {
-
+				listeners: {
+					"menuclick": this.onBarClick ,
+					scope: this
+				}
 			});
 			
 			/*
@@ -24,8 +27,8 @@
 			});
 			*/
 
-			this.mainpanel = Ext.create('WXY.page.Mainpanel', {
-
+			this.wrap = Ext.create('WXY.page.Main', {
+				layout:"card"
 			});
 
 
@@ -40,9 +43,10 @@
 				] ,
 				items: [
 					//this.leftnav ,
-					this.mainpanel
+					this.wrap
 				]
 			});
+
 			this.callParent(arguments);
 			this.on("render" , function(){
 				this.createMain({module: WXY.App.HomeModule})
@@ -54,6 +58,7 @@
 			this.createMain(data);
 		} ,
 
+		/*
 		//创建主内容区域
 		createMain: function(menu){
 			if (!menu || !menu.module) {
@@ -63,10 +68,10 @@
 			var main;
 			if (menu.iswindow){
 				var winid = menu.winId || Ext.id();
-				main = Ext.getCmp("win_"+menu.winId);
+				main = Ext.getCmp("appwin_"+menu.winId);
 				if (!main){
 					main =  Ext.create("WXY."+menu.module, {
-						id: "win_"+winid
+						id: "appwin_"+winid
 					});
 				}
 				main.show();
@@ -113,6 +118,96 @@
 				}
 			}
 
+		} , 
+		*/
+
+	//创建主内容区域
+	createMain: function(menu){
+		if (!menu || !menu.module) return;
+
+		//关闭当前所有窗口
+		//TODO: 如果点击事件触发，则MENU也会被关闭。。。
+		Ext.WindowManager.hideAll();
+
+		var moduleName = "WXY."+menu.module;
+		var moduleId = menu.moduleId || moduleName.replace(/\./ig , "_");
+		var moduleConfig = menu.moduleConfig || {};
+		var moduleMethod = menu.moduleMethod || "";
+
+		//如果是弹出一个浏览器窗口window.open
+		if (menu.isOutUrl) {
+			window.open(menu.outUrl , "baseinfo" , "width=700,height=500,top=100,left=100");
+			return;
 		}
+
+		var main;
+		var isWindow = menu.isWindow ? true : false;
+
+		if (isWindow) { //如果是弹出一个Ext.Window
+			//默认的是open方法
+			moduleMethod = moduleMethod || "open";
+
+			moduleId = "modulewin_"+moduleId;
+			main = Ext.getCmp(moduleId)
+			//创建window
+			if (!main){
+				try{
+					main =  Ext.create(moduleName , {
+						moduleConfig: moduleConfig , 
+						id: moduleId
+					});
+				}catch(e){
+					MB.alert("错误" , "创建Module出现错误!<br>"+moduleName+"<br>"+e.message);
+					return;
+				}
+			}
+		}else{ //在MAIN中生成界面	
+			//默认方法
+			moduleMethod = moduleMethod || "initMain";
+
+			moduleId = "modulepanel_"+moduleId;
+			
+			main = this.wrap.down("#"+moduleId);
+			//创建
+			if (!main) {	
+				try{
+					main = Ext.create(moduleName , {
+						itemId: moduleId , 
+						moduleConfig: moduleConfig
+					});
+					this.wrap.add(main);
+				}catch(e){
+					MB.alert("错误" , "创建Module出现错误!<br>"+moduleName+"<br>"+e.message);
+					return;
+				}
+			}
+			
+
+			//获取上一个main
+			var wrapcard = this.wrap.getLayout();
+			this.prevMain = wrapcard.getActiveItem();
+			wrapcard.setActiveItem(main);
+			this.curMain = main;
+
+		}
+
+		//如果有执行方法,则自动执行
+		if (moduleMethod && main[moduleMethod]) {
+			if (isWindow){
+				main[moduleMethod].call(main , moduleConfig);
+			}else{
+				if (main.rendered) {
+					main[moduleMethod].call(main , moduleConfig);
+				}else{
+					main.on("render" , function(){
+						main[moduleMethod].call(main , moduleConfig)
+					} , main)
+				}
+			}
+		}
+
+	}
+
+
 
 })

@@ -23,10 +23,7 @@ Ext.define('WXY.page.StatusBar' , {
 					}}
 				]
 			}} , '-' ,
-			{text:"常用工具" , iconCls:"ico_tools" , menu:[
-				{text:"商务费用计算"}
-			]} , '-' ,
-			{text:"监控状态" , iconCls:"ico_devtools"}
+			{text:"监控状态" , iconCls:"ico_status_ok" , tooltip:"点击查看当前的监控信息"}
 		];
 		me.callParent();	
 	} , 

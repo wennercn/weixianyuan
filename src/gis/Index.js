@@ -22,5 +22,12 @@ Ext.define("WXY.gis.Index" , {
 		lat: 42.339419,
 		lng: -71.09077,
 		title: 'Northeastern University'
-	}]
+	}] , 
+	initComponent: function(){
+		var me = this;
+
+		
+
+		me.callParent();
+	}
 });

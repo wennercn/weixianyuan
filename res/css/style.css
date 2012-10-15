@@ -14,8 +14,24 @@ body {background: url(../img/mask-bg.jpg) repeat-x  #DAE3E9 0 0;}
 	z-index:10000;	
 	text-align:center;
 	padding:10px;
-	box-sizing:content-box
+	box-sizing:content-box;
 }
 #loading h3 {font:bold 28px 微软雅黑;color:#0265dc;line-height:50px;}
 #loading p {font:bold 18px 微软雅黑;line-height:30px;color:#ff6600}
 #loading span {font: normal 12px arial,tahoma,sans-serif;line-height:30px;color:#999;}
+
+#logobar .x-toolbar-separator-horizontal {
+	border-left: 1px solid #0493F2;
+	border-right: 1px solid #94D3FE;
+}
+
+
+.topbg  , .x-nlg .topbg{background:url(../img/topbg.jpg) !important}
+.loginwin {background:url(../img/loginbg.jpg) right bottom no-repeat}
+.login_btn .x-btn-text {font:bold 14px arial}
+.pagehome {padding: 10px;line-height:200%;font-size:14px;background:url(../img/homebg.png) bottom right no-repeat}
+
+
+.gridtree .x-grid-row .x-grid-cell {border-bottom:#f7f7f7 solid 1px;padding:2px 0;font:bold 14px arial;color:#0265dc}
+.gridtree .x-grid-table {border-collapse:collapse}
+.gridtree .x-grid-tree-node-leaf .x-grid-cell {font:normal 12px arial;color:#000}

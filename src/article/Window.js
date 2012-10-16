@@ -16,6 +16,7 @@ Ext.define("WXY.article.Window" , {
 			recordPath: "Chemical" , 
 			storeId:"article-catalog"
 		});
+		
 		//列表
 		me.list = Ext.create("WXY.article.List" , {
 		});

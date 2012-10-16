@@ -50,6 +50,7 @@ Ext.define("WXY.article.Form" , {
 	//初始化
 	initMain: function(config){	
 		config = config || {};
+		this.record = null;
 		this.win = this.up("window");
 		this.win.setTitle("添加 "+this.win.moduleConfig.type +" 内容");
 		this.win.setIconCls('ico_add');
@@ -66,6 +67,7 @@ Ext.define("WXY.article.Form" , {
 	backToList: function(loadstore){
 		this.win.setCardActive(this.win.list , {disableInit:!loadstore});
 	} , 
+	
 	//分类管理
 	showCataLog: function(){
 		if (!this.win.catalog){
@@ -95,7 +97,7 @@ Ext.define("WXY.article.Form" , {
 		*/
 
 		Ext.Ajax.request({
-			url: this.win.wsUrl+"/AddKnowledge" ,
+			url: this.win.wsUrl+"AttachKnowledge" , //(this.record ? "UpdateKnowledge" : "AddKnowledge") ,
 			params: $params(fv, 'knowledge') ,
 			success: this._save,
 			failure: $failure ,

@@ -156,7 +156,7 @@ Ext.define('WXY.article.List', {
 		this.forDeleteRecord = record;
 		MB.confirm("删除信息?" , "是否要删除该条记录!" , this.execDelete , this);
 	} , 
-	
+
 	execDelete: function(result){
 		if (result == "no") return;
 		MB.loading("删除信息");
@@ -169,6 +169,7 @@ Ext.define('WXY.article.List', {
 					MB.alert("错误" , bd.getErrorInfo());
 					return;
 				}
+				MB.hide();
 				this.getStore().remove(this.forDeleteRecord);
 				this.forDeleteRecord = null;
 			},

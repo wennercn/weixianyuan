@@ -6,7 +6,7 @@ Ext.define('WXY.article.Catalog', {
 	selModel: {mode: 'SINGLE'} ,
 	columns: [
 		{xtype: 'rownumberer' , text:"序号" , width:30},
-		{text:"分类ID" , dataIndex:'chemicalid' , text-align:'center'} , 
+		{text:"分类ID" , dataIndex:'chemicalid' , align:'center'} , 
 		{text:'分类名称' , dataIndex:'chemicalname' , flex:1}
 	] ,
 	

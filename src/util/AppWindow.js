@@ -16,6 +16,7 @@ Ext.define("WXY.util.AppWindow" , {
 		var me = this;
 		var card = me.getLayout();
 		var prevPanel = card.getActiveItem();
+		me.prevPanel = prevPanel;
 		if (prevPanel == panel){
 			if (panel["initMain"]) {
 				panel["initMain"].call(panel , config);
@@ -36,6 +37,9 @@ Ext.define("WXY.util.AppWindow" , {
 				}
 			});
 		}
-		this.curMain = panel;
+		this.curPanel = panel;
+	} , 
+	back: function(){
+		this.win.setCardActive(this.prevPanel);	
 	}
 })

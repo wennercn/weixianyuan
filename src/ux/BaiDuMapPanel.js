@@ -1,4 +1,4 @@
-Ext.define('Ext.ux.BaiDuMapPanel', {
+Ext.define('WXY.ux.BaiDuMapPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.bmappanel',
     initComponent : function(){

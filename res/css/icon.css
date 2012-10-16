@@ -6,6 +6,7 @@
 .ico_delete {background-image: url(../ico/common/delete.png);}
 .ico_edit {background-image: url(../ico/common/edit.png);background-repeat:no-repeat;background-position:center}
 .ico_view {background-image: url(../ico/common/view.png);}
+.ico_detail {background-image: url(../ico/common/detail.png);}
 .ico_save {background-image: url(../ico/common/save.png);}
 .ico_savemedium {background-image: url(../ico/common/save_medium.png);font:bold 14px arial}
 .ico_cancel {background-image: url(../ico/common/cancel.png);}

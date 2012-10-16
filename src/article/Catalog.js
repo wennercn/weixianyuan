@@ -2,12 +2,12 @@ Ext.define('WXY.article.Catalog', {
 	extend: 'Ext.grid.Panel',
 	autoScroll: true ,
 	columnLines: true ,
-	rowLines: false , 
+	rowLines: true , 
 	selModel: {mode: 'SINGLE'} ,
 	columns: [
 		{xtype: 'rownumberer' , text:"序号" , width:30},
-		{text:"分类ID" , dataIndex:'title'} , 
-		{text:'分类名称'}
+		{text:"分类ID" , dataIndex:'chemicalid' , text-align:'center'} , 
+		{text:'分类名称' , dataIndex:'chemicalname' , flex:1}
 	] ,
 	
 	initComponent: function(){
@@ -27,7 +27,8 @@ Ext.define('WXY.article.Catalog', {
 				]}
 			] , 
 			items:[
-				{xtype:"textfield" , fieldLabel:"分类名称" , name:"name" , allowBlank:false , anchor:"100%"}
+				{xtype:"textfield" , fieldLabel:"分类名称" , name:"chemicalname" , allowBlank:false , anchor:"100%"} ,
+				{xtype:"textarea" , fieldLabel:"备注" , name:"remark" , anchor:"100%"}
 			]
 		});
 
@@ -77,12 +78,14 @@ Ext.define('WXY.article.Catalog', {
 			MB.alert("错误","请填写每项信息!"  , this);
 			return;
 		}
+
 		var fv = f.getValues();
-		fv.type = this.win.moduleConfig.type;
+		fv.parentid = this.win.moduleConfig.id;
+
 		MB.loading("保存信息");
 		Ext.Ajax.request({
-			url: "ws/article.asmx/SaveCatalog" ,
-			params: fv ,
+			url: this.win.wsUrl+"AddChemical" ,
+			params: $params(fv , 'chemical') ,
 			success: this._save,
 			failure: $failure ,
 			scope: this
@@ -94,11 +97,8 @@ Ext.define('WXY.article.Catalog', {
 		if (bd.isok){
 			MB.hide();
 			PM.msg("保存成功" , "保存分类成功!");
-
-			this.getStore().load({
-				params: {type: this.win.moduleConfig.type}
-			});
-			
+			this.form.getForm().reset();
+			this.win.loadCatalogStore();			
 			this.backToForm();
 		}else{
 			MB.alert("错误","保存信息时发生错误!<br>"+bd.getErrorInfo());

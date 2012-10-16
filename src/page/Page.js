@@ -49,7 +49,7 @@
 
 			this.callParent(arguments);
 			this.on("render" , function(){
-				this.createMain({module: WXY.App.HomeModule})
+				this.createMain({module: $CONFIG.homeModule})
 			} , this)
 		} ,
 
@@ -207,7 +207,4 @@
 		}
 
 	}
-
-
-
-})
+});

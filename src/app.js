@@ -1,17 +1,11 @@
-﻿Ext.define('WXY.App' , {
+﻿/*
+ * Application
+ */
+Ext.define('WXY.App' , {
 	singleton: true,
   	constructor: function(config) {
-		this.HomeModule = "gis.Index";
-		this.ServerDate = new Date();
-		Ext.TaskManager.start({
-			run: function(){
-				this.ServerDate = Ext.Date.add(this.ServerDate , Ext.Date.SECOND , 1);	
-			},
-			interval: 1000 ,
-			scope: this
-		});
 		Ext.QuickTips.init();
-    },
+	},
 	check: function(){
 		//检测用户信息
 		//$ADMIN.checkSession({from:"init"});

@@ -43,14 +43,17 @@ var wsurl = "ws/default.asp";
 /*
 	转换参数
 */
-function $params(obj){
-	return {"action": obj.action , "params" : escape(Ext.encode(obj))};
+function $params(obj , paramName){
+	paramName = paramName || "params";
+	var pa = {};
+	pa[paramName] = escape(Ext.encode(obj));
+	return pa;
 }
 /*
 	$back()
 	解析返回的数据,返回该对象
 */
-function $back(obj , type){
+function $back11(obj , type){
 	this.isok = false;
 	this.getErrorInfo = function(){
 		return this.errinfo;
@@ -150,6 +153,17 @@ MB.loading = function(msg , title){
 		width : 250 ,
 		waitConfig: {interval:200}
 	})
+}
+
+MB.confirm = function(title , message , fn , scope){
+	MB.show({
+		title:title,
+		msg: message , 
+		buttons: Ext.MessageBox.YESNO,
+		fn: fn , 
+		icon: Ext.MessageBox.QUESTION ,
+		scope: scope
+	});
 }
 
 //popmsg

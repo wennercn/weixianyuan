@@ -25,10 +25,10 @@ Ext.define('WXY.page.LogoBar' , {
 				{iconCls:'ico_article' , text:'知识库' , module1:'article.Window' , menu:{
 					defaults: {scope:this , handler:this.onClick , isWindow:true} , 
 					items:[
-						{text:'常见危险化学品理化性质表' , module:"article.Window" , moduleConfig:{type:"常见危险化学品理化性质表"}} , 
-						{text:'常见危险化学品事故处置程序' , module:"article.Window" , moduleConfig:{type:"常见危险化学品事故处置程序"}} , 
-						{text:'常见危化品事故救援人员防护措施' , module:"article.Window" , moduleConfig:{type:"常见危化品事故救援人员防护措施"}} , 
-						{text:'危化品中毒人员救治措施' , module:"article.Window" , moduleConfig:{type:"危化品中毒人员救治措施"}}
+						{text:'常见危险化学品理化性质表' , module:"article.Window" , moduleConfig:{type:"常见危险化学品理化性质表" , id:1}} , 
+						{text:'常见危险化学品事故处置程序' , module:"article.Window" , moduleConfig:{type:"常见危险化学品事故处置程序" , id:2}} , 
+						{text:'常见危化品事故救援人员防护措施' , module:"article.Window" , moduleConfig:{type:"常见危化品事故救援人员防护措施" , id:3}} , 
+						{text:'危化品中毒人员救治措施' , module:"article.Window" , moduleConfig:{type:"危化品中毒人员救治措施" , id:4}}
 					]
 				}} , '-' , 
 				{iconCls:'ico_preplan' , text:'应急预案'} , '-' , 

@@ -1,10 +1,14 @@
 Ext.define("WXY.article.model.Article" , {
 	extend: "Ext.data.Model",
-	//idProperty: "plan_id" ,
+	idProperty: "knowledgeid" ,
 	fields: [		
-		{name:"dangername" , mapping:"dangername"} ,
-		{name:"address" , mapping:"address"} ,
-		{name:"description" , mapping:"description"} ,
-		{name:"location" , mapping:"location"}
+		{name:"knowledgeid" , mapping:"knowledgeid"} ,
+		{name:"title" , mapping:"title"} ,
+		{name:"detail" , mapping:"detail"} ,
+		{name:"activity" , mapping:"activity"} ,
+		{name:"uploaduser" , mapping:"uploaduser"} ,
+		{name:"chemicalid" , mapping:"chemicalid"} ,
+		{name:"addtime" , mapping:"addtime"} ,
+		{name:"chemicalname" , mapping:"chemicalname"}
 	]
 });

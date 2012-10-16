@@ -1,8 +1,9 @@
 Ext.define("WXY.article.model.Catalog" , {
 	extend: "Ext.data.Model",
+	idProperty: "chemicalid" ,
 	fields: [
-
-		{name:"plan_id" , mapping:"@plan_id"} ,	
-		{name:'loc_id' , mapping:'@loc_i'}
+		{name:"chemicalid" , mapping:"chemicalid"} ,	
+		{name:'parentid' , mapping:'parentid'} ,	
+		{name:'chemicalname' , mapping:'chemicalname'}
 	]
 });

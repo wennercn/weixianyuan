@@ -1,7 +1,6 @@
 Ext.define("WXY.gis.Index" , {
-	extend:"Ext.ux.BaiDuMapPanel" ,
+	extend:"WXY.ux.BaiDuMapPanel" ,
 	mapOptions: {
-
 	} ,
 	center: {
 		lat: 38.9730 ,
@@ -26,8 +25,13 @@ Ext.define("WXY.gis.Index" , {
 	initComponent: function(){
 		var me = this;
 
-		
+		me.console = Ext.create("WXY.gis.console.Window" , {
+		});
 
 		me.callParent();
+	} , 
+	initMain: function(){
+		var me = this;
+		//me.console.animShow();
 	}
 });

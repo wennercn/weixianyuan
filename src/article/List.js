@@ -12,28 +12,18 @@ Ext.define('WXY.article.List', {
 	//cls:"planlist" , 
 	autoScroll: true ,
 	columnLines: true ,
-	/**
-	 * @cfg {String/Object} defaultOpenConfig 默认双击打开的参数
-	 */
-	defaultOpenConfig: "detail" , 
-	/**
-	 * @cfg {String} wsUrl 读取数据的webservices 地址
-	 */
-	wsUrl: "http://192.168.0.110/weixianyuanservice/DangerWebService.asmx" ,
-	/**
-	 * @cfg {String} wsMethod 读取数据的webservices 方法
-	 */
-	wsMethod: "GetAll" , 
-
-	rowLines: false , 
+	rowLines: true , 
 	selModel: {mode: 'SINGLE'} ,
-
+	features: {ftype:"grouping" , groupHeaderTpl: '分组: {name}'} , 
 	columns: [
 		{xtype: 'rownumberer' , text:"序号" , width:30},
-		{text:"标题" , dataIndex:'title'} , 
-		{text:'日期'}
-	] ,
-	
+		{text:"标题" , dataIndex:'title' , flex:1 , renderer:function(v , td , r){
+			td.style = 'white-space:normal;';
+			return '<p style="font-weight:bold">'+v+"</p><div style='color:#999;line-height:150%'>"+r.get("detail").substr(0 , 50)+"</div>"
+		}} , 
+		//{text:"内容" , dataIndex:'detail' , flex:1} , 
+		{text:'分类' , dataIndex:'chemicalname' , align:'center'}
+	] ,	
 	initComponent: function(){
 		var me = this;
 
@@ -67,10 +57,21 @@ Ext.define('WXY.article.List', {
 		config = config || {};
 		this.win = this.up("window");
 		this.win.setTitle("查看 "+this.win.moduleConfig.type+" 列表");
+		this.win.setIconCls('ico_article');
 		if (config.disableInit) return;
 		this.load();
 	} , 
-
+	/**
+	 * 创建STORE
+	 * @return {Ext.data.Store}
+	 */
+	createStore: function(){
+		var store = Ext.create("WXY.article.store.Article" , {
+			recordPath: "View_Knowledge" , 
+			groupField: "chemicalname"
+		});	
+		return store;
+	} , 
 	/**
 	* 读取数据;
 	*/
@@ -78,7 +79,7 @@ Ext.define('WXY.article.List', {
 		this.setLoading("读取数据...");
 		var pa = this.getParams();
 		this.store.load({
-			url: this.wsUrl+"/"+this.wsMethod , 
+			url: this.win.wsUrl+"GetKonwByClssID" , 
 			params: pa , 
 			callback: function(records , ops , succ){
 				this.setLoading(false);
@@ -91,19 +92,12 @@ Ext.define('WXY.article.List', {
 
 	getParams: function(){
 		var pa = {};
-		pa.type = this.win.moduleConfig.type;
+		pa.chemicalname = this.win.moduleConfig.type;
+		pa.chemicalid = this.win.moduleConfig.id;
 		return pa;
 	} , 
 
-	/**
-	 * 创建STORE
-	 * @return {Ext.data.Store}
-	 */
-	createStore: function(){
-		var store = Ext.create("WXY.article.store.Article" , {
-		});	
-		return store;
-	} , 
+
 
     /**
      * 创建DOCKEDS
@@ -114,9 +108,19 @@ Ext.define('WXY.article.List', {
 			{xtype:"toolbar" , dock:'top' , items:[
 				{text:"<b>添加</b>" , iconCls:"ico_add" , handler: this.onCreate , scope:this} , '-' , 
 				{text:"修改" , iconCls:"ico_edit" , itemId:"edit" , disabled:true , handler: this.onEdit , scope:this} , '-' , 
-				{text:"删除" , iconCls:"ico_delete" , itemId:"delete" , disabled:true , hander: this.onDelete , scope:this} , '-' , 
-				{text:"查看" , iconCls:"ico_detail" , itemId:"detail" , disabled:true , handler: this.onDetail , scope:this} , 
+				{text:"删除" , iconCls:"ico_delete" , itemId:"delete" , disabled:true , handler: this.onDelete , scope:this} , '-' , 
+				{text:"查看" , iconCls:"ico_view" , itemId:"detail" , disabled:true , handler: this.onDetail , scope:this} , 
 				'->' , 
+				{xtype:'textfield' , enableKeyEvents:true , emptyText:'请输入关键字...' , listeners:{
+					keyup: function(el){
+						var v = el.getValue();
+						console.log(v);
+						this.getStore().filterBy(function(r){
+							return r.get("title").indexOf(v) > -1 || r.get("detail").indexOf(v) > -1;
+						})
+					} , 
+					scope: this
+				}} , '-' , 
 				{text:'刷新' , iconCls:'ico_refresh' , handler:this.onRefresh , scope:this}
 			]}
 		];
@@ -125,25 +129,60 @@ Ext.define('WXY.article.List', {
 
 	//添加
 	onCreate: function(){
-		var win = this.win;
-		if (!win.form){
-			win.form = win.add(this.createForm());
-		}
-		win.setCardActive(win.form);
+		this.win.setCardActive(this.getForm());
 	} , 
 
 	//创建表单
-	createForm: function(){
-		var form = Ext.create("WXY.article.Form" , {
-		});
-		return form;
+	getForm: function(){
+		if (!this.win.form){
+			var form = Ext.create("WXY.article.Form" , {
+			});
+			this.win.form = this.win.add(form);
+		}
+		return this.win.form;
 	} , 
 
 	//修改
+	onEdit: function(){
+		var record = this.getSelectionModel().getSelection()[0];
+		if (!record) return;
+		this.win.setCardActive(this.getForm() , {record: record});
+	} , 
 
 	//删除
+	onDelete: function(){
+		var record = this.getSelectionModel().getSelection()[0];
+		if (!record) return;
+		this.forDeleteRecord = record;
+		MB.confirm("删除信息?" , "是否要删除该条记录!" , this.execDelete , this);
+	} , 
+	
+	execDelete: function(result){
+		if (result == "no") return;
+		MB.loading("删除信息");
+		Ext.Ajax.request({
+			url: this.win.wsUrl+"DeleteKnowledge" , 
+			params: {knowledgeid: this.forDeleteRecord.get("knowledgeid")} ,
+			success: function(data){
+				var bd = $back(data);
+				if (!bd.isok){
+					MB.alert("错误" , bd.getErrorInfo());
+					return;
+				}
+				this.getStore().remove(this.forDeleteRecord);
+				this.forDeleteRecord = null;
+			},
+			failure: $failure ,
+			scope: this
+		});
+	} , 
 
 	//查看
+	onDetail: function(){
+		var record = this.getSelectionModel().getSelection()[0];
+		if (!record) return;
+		this.showDetail(record);
+	} , 
 
 	//刷新
 	onRefresh: function(){
@@ -187,6 +226,10 @@ Ext.define('WXY.article.List', {
 	* 双击表格打开详细信息
 	*/
 	onDblclick: function(view , record , el , rindex , ev){
+		this.showDetail(record);
+	} , 
+
+	showDetail: function(record){
 		var win = this.win;
 		if (!win.detail){
 			win.detail = win.add(Ext.create("WXY.article.Detail" , {
@@ -196,5 +239,6 @@ Ext.define('WXY.article.List', {
 		win.setCardActive(win.detail , {
 			record: record	
 		});
+
 	}
 });

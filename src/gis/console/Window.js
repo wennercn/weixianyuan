@@ -3,11 +3,11 @@ Ext.define("WXY.gis.console.Window" , {
 	title:'监控控制台' , 
     collapsible: true , 
     closable: false , 
-    draggable: false , 
+    //draggable: false , 
     resizable: false , 
 	closeAction: 'hide' , 
 	width:250 , 
-    margins: "50 10 20 20" ,
+    margins: "38 10 10 10" ,
     listeners: {
         show: function(win){
             win.getEl().setOpacity(.8);
@@ -31,6 +31,13 @@ Ext.define("WXY.gis.console.Window" , {
             // show help here
         }
     }] ,
+
+    initComponent: function(){
+        var me = this;
+
+        me.callParent();
+    } , 
+
     setSizeAndPosition: function(){
         var win = this;
             var margin = win.margins || 20;

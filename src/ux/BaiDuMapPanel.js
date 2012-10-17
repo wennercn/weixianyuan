@@ -25,18 +25,25 @@ Ext.define('WXY.ux.BaiDuMapPanel', {
         var me = this;
         //创建地图
         me.map = new BMap.Map(this.body.dom);
+
+		var map = me.map;
         //初始化
         var cpoint = new BMap.Point(me.mapCenterLng,me.mapCenterLat);
-        me.map.centerAndZoom(cpoint, me.mapZoom);
+        map.centerAndZoom(cpoint, me.mapZoom);
 
         //添加控件
         //缩放导航
-        me.map.addControl(new BMap.NavigationControl()); 
+		map.addControl(new BMap.NavigationControl()); 
+        /*
         //地图类型
-        me.map.addControl(new BMap.MapTypeControl({
+        map.addControl(new BMap.MapTypeControl({
             anchor: BMAP_ANCHOR_TOP_RIGHT , 
             offset: new BMap.Size(15, 10)
         }));
+        */
+
+		//允许滚轮
+		map.enableScrollWheelZoom()
 
         //设置中心位置
         this.setCenter();

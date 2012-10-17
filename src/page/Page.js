@@ -48,9 +48,9 @@
 			});
 
 			this.callParent(arguments);
-			this.on("render" , function(){
+			this.on("afterrender" , function(){
 				this.createMain({module: $CONFIG.homeModule})
-			} , this)
+			})
 		} ,
 
 		onBarClick: function(data , type){
@@ -142,7 +142,7 @@
 
 		var main;
 		var isWindow = menu.isWindow ? true : false;
-
+		var errinfo = "";
 		if (isWindow) { //如果是弹出一个Ext.Window
 			//默认的是open方法
 			moduleMethod = moduleMethod || "open";
@@ -157,7 +157,9 @@
 						id: moduleId
 					});
 				}catch(e){
-					MB.alert("错误" , "创建Module出现错误!<br>"+moduleName+"<br>"+e.message);
+					errinfo = "创建Module出现错误!<br>"+moduleName+"<br>"+e.message;
+					MB.alert("错误" , errinfo);
+					Ext.log(errinfo);
 					return;
 				}
 			}
@@ -177,7 +179,9 @@
 					});
 					this.wrap.add(main);
 				}catch(e){
-					MB.alert("错误" , "创建Module出现错误!<br>"+moduleName+"<br>"+e.message);
+					errinfo = "创建Module出现错误!<br>"+moduleName+"<br>"+e.message;
+					MB.alert("错误" , errinfo);
+					Ext.log(errinfo);
 					return;
 				}
 			}
@@ -192,18 +196,22 @@
 		}
 
 		//如果有执行方法,则自动执行
-		if (moduleMethod && main[moduleMethod]) {
-			if (isWindow){
-				main[moduleMethod].call(main , moduleConfig);
-			}else{
-				if (main.rendered) {
+		try{
+			if (moduleMethod && main[moduleMethod]) {
+				if (isWindow){
 					main[moduleMethod].call(main , moduleConfig);
 				}else{
-					main.on("render" , function(){
-						main[moduleMethod].call(main , moduleConfig)
-					} , main)
+					if (main.rendered) {
+						main[moduleMethod].call(main , moduleConfig);
+					}else{
+						main.on("render" , function(){
+							main[moduleMethod].call(main , moduleConfig)
+						} , main)
+					}
 				}
 			}
+		}catch(e){
+			Ext.log(errinfo);
 		}
 
 	}

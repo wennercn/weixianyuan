@@ -31,13 +31,14 @@ Ext.define('WXY.page.LogoBar' , {
 						{text:'危化品中毒人员救治措施' , module:"article.Window" , moduleConfig:{type:"危化品中毒人员救治措施" , id:4}}
 					]
 				}} , '-' , 
-				{iconCls:'ico_preplan' , text:'应急预案'} , '-' , 
+				{iconCls:'ico_preplan' , text:'应急预案' , module:'article.Window' , moduleConfig:{type:"应急预案" , id:4} , isWindow: true} , '-' , 
 				{iconCls:"ico_baseinfo" ,text:"基础数据" , menu:{
+					defaults: {handler: this.onClick , scope:this} , 
 					items:[
-						{text:'重大危险源分级'} , 
-						'-' , 
+						{text:'重大危险源分级' , module: 'dangers.Window' , isWindow:true} , 
+						{xtype:'menuseparator'} , 
 						{text:'传感器管理'} , 
-						'-' , 
+						{xtype:'menuseparator'} , 
 						{text:'事故相应级别管理'} , 
 						{text:'企业基本信息'}
 					]

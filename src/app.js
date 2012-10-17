@@ -13,9 +13,12 @@ Ext.define('WXY.App' , {
 	} ,
 	start: function(){
 		this.hideDomLoad();
-		this.page = Ext.create('WXY.page.ViewPort' , {
-			
-		});
+		try{
+			this.page = Ext.create('WXY.page.ViewPort' , {			
+			});
+		}catch(e){
+			MB.alert(e.message);
+		}
 	} , 
 	hideDomLoad: function(){
 		if (Ext.get("loading")) Ext.get('loading').fadeOut({remove:true});

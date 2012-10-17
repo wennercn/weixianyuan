@@ -2,9 +2,12 @@
 	    extend: 'Ext.container.Viewport',
 		alias: 'wd.page' ,
 		initComponent: function(){
+
 			var page = Ext.create("WXY.page.Page" , {
 				region:"center"
 			});
+
+			window.$PAGE = page;
 
 			Ext.apply(this, {
 				layout: 'border',
@@ -15,6 +18,7 @@
 					page
 				]
 			});
-			this.callParent(arguments);
+
+			this.callParent();
 		}
 });

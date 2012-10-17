@@ -1,29 +1,31 @@
+/**
+ * 百度地图
+ */
 Ext.define('WXY.ux.BaiDuMapPanel', {
     extend: 'Ext.panel.Panel',
-    alias: 'widget.bmappanel',
+    xtype: 'baidumap',
+    border: false ,   
+      
+    /*地址中心*/
+    //mapcenter
+
     initComponent : function(){
-        Ext.applyIf(this,{
-            plain: true,
-            gmapType: 'map',
-            border: false
-        });
-        this.callParent();
+        var me = this;
+        me.callParent();
     },
 
     afterFirstLayout : function(){
-        var center = this.center;
+        var mapCenter = this.mapCenter;
         this.callParent();
-
-        if (center) {
+        if (mapCenter) {
             if (center.geoCodeAddr) {
                 this.lookupCode(center.geoCodeAddr, center.marker);
             } else {
                 this.createMap(center);
             }
         } else {
-            Ext.Error.raise('center is required');
+            Ext.Error.raise({msg:'center is required'});
         }
-
     },
 
     createMap: function(center, marker) {
@@ -33,9 +35,6 @@ Ext.define('WXY.ux.BaiDuMapPanel', {
             center: center
             //mapTypeId: google.maps.MapTypeId.HYBRID
         });
-
-
-
         this.gmap = new BMap.Map(this.body.dom)//, options);
 		var point = new BMap.Point(117.7482,  38.9730);  // 创建点坐标
 		this.gmap.centerAndZoom(point, 15);                 // 初始化地图，设置中心点坐标和地图级别

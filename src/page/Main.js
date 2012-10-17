@@ -1,7 +1,7 @@
 ﻿/*中间MAINPANEL*/
 Ext.define('WXY.page.Main', {
     extend: 'Ext.panel.Panel',
-    alias: 'wd.mainpanel',
+    xtype: 'mainpanel',
     region:"center",
     id : "main_panel" ,
     layout:"fit",

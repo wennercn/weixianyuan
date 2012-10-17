@@ -2,7 +2,7 @@ Ext.define("WXY.gis.Index" , {
 	extend:"WXY.ux.BaiDuMapPanel" ,
 	mapOptions: {
 	} ,
-	center: {
+	center1: {
 		lat: 38.9730 ,
 		lng: 117.7482
 		//geoCodeAddr: '天津市国际创业中心'
@@ -24,14 +24,17 @@ Ext.define("WXY.gis.Index" , {
 	}] , 
 	initComponent: function(){
 		var me = this;
-
 		me.console = Ext.create("WXY.gis.console.Window" , {
+			parent: me
 		});
-
+		me.on("afterlayout" , this.showConsole , this);
 		me.callParent();
 	} , 
 	initMain: function(){
 		var me = this;
-		//me.console.animShow();
+	} , 
+	showConsole: function(){
+		this.console.setSizeAndPosition();
+		this.console.show();
 	}
 });

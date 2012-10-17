@@ -4,10 +4,11 @@
 Ext.define('WXY.ux.BaiDuMapPanel', {
     extend: 'Ext.panel.Panel',
     xtype: 'baidumap',
-    border: false ,   
-      
-    /*地址中心*/
-    //mapcenter
+    border: false ,
+
+    mapCenterLng: 117.131169 ,//默认中心的经度
+    mapCenterLat: 39.102512 , //默认中心的纬度
+    mapZoom: 14 ,               //默认缩放级别
 
     initComponent : function(){
         var me = this;
@@ -15,37 +16,63 @@ Ext.define('WXY.ux.BaiDuMapPanel', {
     },
 
     afterFirstLayout : function(){
-        var mapCenter = this.mapCenter;
         this.callParent();
-        if (mapCenter) {
-            if (center.geoCodeAddr) {
-                this.lookupCode(center.geoCodeAddr, center.marker);
-            } else {
-                this.createMap(center);
-            }
-        } else {
-            Ext.Error.raise({msg:'center is required'});
-        }
+        this.createMap();
     },
 
-    createMap: function(center, marker) {
-        options = Ext.apply({}, this.mapOptions);
-        options = Ext.applyIf(options, {
-            zoom: 14,
-            center: center
-            //mapTypeId: google.maps.MapTypeId.HYBRID
-        });
-        this.gmap = new BMap.Map(this.body.dom)//, options);
-		var point = new BMap.Point(117.7482,  38.9730);  // 创建点坐标
-		this.gmap.centerAndZoom(point, 15);                 // 初始化地图，设置中心点坐标和地图级别
-		return
-        if (marker) {
-            this.addMarker(Ext.applyIf(marker, {
-                position: center
-            }));
+    //创建地图
+    createMap: function(center) {
+        var me = this;
+        //创建地图
+        me.map = new BMap.Map(this.body.dom);
+        //初始化
+        var cpoint = new BMap.Point(me.mapCenterLng,me.mapCenterLat);
+        me.map.centerAndZoom(cpoint, me.mapZoom);
+
+        //添加控件
+        //缩放导航
+        me.map.addControl(new BMap.NavigationControl()); 
+        //地图类型
+        me.map.addControl(new BMap.MapTypeControl({
+            anchor: BMAP_ANCHOR_TOP_RIGHT , 
+            offset: new BMap.Size(15, 10)
+        }));
+
+        //设置中心位置
+        this.setCenter();
+    } , 
+    //设置中心点
+    setCenter: function(){
+        var me = this;       
+
+        //定位当前位置
+        if (me.useLocation == true){
+            var gl = new BMap.Geolocation();
+            gl.getCurrentPosition(function(point){
+                if(gl.getStatus() == BMAP_STATUS_SUCCESS){
+                    me.map.setCenter(point);
+                }        
+            });
+        //根据地址获取坐标
+        }else if(me.mapCenterAddress){
+             me.findAddress(me.mapCenterAddress , me.mapCenterCity);           
         }
 
-        Ext.each(this.markers, this.addMarker, this);
+    },
+
+    //通过地址查找中心点坐标
+    findAddress : function(address , city) {
+        var me = this;
+        //地址解析器
+        var geoCoder = new BMap.Geocoder();
+        //获取指定地址的坐标
+        geoCoder.getPoint(
+            address , 
+            function(point){
+                me.map.setCenter(point);
+            } , 
+            city
+        );
     },
 
     addMarker: function(marker) {
@@ -61,21 +88,6 @@ Ext.define('WXY.ux.BaiDuMapPanel', {
             google.maps.event.addListener(o, name, fn);
         });
         return o;
-    },
-
-    lookupCode : function(addr, marker) {
-        this.geocoder = new google.maps.Geocoder();
-        this.geocoder.geocode({
-            address: addr
-        }, Ext.Function.bind(this.onLookupComplete, this, [marker], true));
-    },
-
-    onLookupComplete: function(data, response, marker){
-        if (response != 'OK') {
-            Ext.MessageBox.alert('Error', 'An error occured: "' + response + '"');
-            return;
-        }
-        this.createMap(data[0].geometry.location, marker);
     },
 
     afterComponentLayout : function(w, h){

@@ -7,7 +7,7 @@ Ext.define("WXY.gis.console.Window" , {
     resizable: false , 
 	closeAction: 'hide' , 
 	width:250 , 
-    margins: "50 20 20 20" ,
+    margins: "50 10 20 20" ,
     listeners: {
         show: function(win){
             win.getEl().setOpacity(.8);

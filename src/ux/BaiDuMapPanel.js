@@ -12,21 +12,39 @@ Ext.define('WXY.ux.BaiDuMapPanel', {
 
     initComponent : function(){
         var me = this;
+
+        this.addEvents("contextmenu");
+
         me.callParent();
     },
 
     afterFirstLayout : function(){
-        this.callParent();
-        this.createMap();
+        var me = this;
+        me.callParent()
+        me.setLoading("读取数据信息");
+        me.createMap();
+        var hideLoading = function(){
+            me.setLoading(false);
+            me.map.removeEventListener("tilesloaded", hideLoading);  
+        }
+        me.map.addEventListener("tilesloaded" , hideLoading);
     },
 
     //创建地图
     createMap: function(center) {
-        var me = this;
+        var me = this; 
         //创建地图
         me.map = new BMap.Map(this.body.dom);
+        var map = me.map;
 
-		var map = me.map;
+        //设置时间
+        //右键
+        map.addEventListener("rightclick", function(obj){
+            //obj: type, target, point, pixel, overlay
+            me.fireEvent('contextmenu' , obj)
+        });
+
+
         //初始化
         var cpoint = new BMap.Point(me.mapCenterLng,me.mapCenterLat);
         map.centerAndZoom(cpoint, me.mapZoom);
@@ -45,8 +63,25 @@ Ext.define('WXY.ux.BaiDuMapPanel', {
 		//允许滚轮
 		map.enableScrollWheelZoom()
 
+
+
+
         //设置中心位置
-        this.setCenter();
+        this.setCenter();        
+
+
+        var point = new BMap.Point(117.131169, 39.102512);
+        var marker = new BMap.Marker(point);
+        map.addOverlay(marker);
+
+        var label = new BMap.Label("我是文字标注哦",{offset:new BMap.Size(20,-10)});
+        marker.setLabel(label);
+        marker.addEventListener("rightclick" , function(e){
+            var ev= e.domEvent;
+            ev.preventDefault();
+            ev.stopPropagation();
+            //console.log(aa.domEvent.stopPropagation)
+        })
     } , 
     //设置中心点
     setCenter: function(){

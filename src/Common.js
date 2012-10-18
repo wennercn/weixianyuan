@@ -44,7 +44,7 @@ var wsurl = "ws/default.asp";
 	转换参数
 */
 function $params(obj , paramName){
-	paramName = paramName || "params";
+	paramName = paramName || "data";
 	var pa = {};
 	pa[paramName] = escape(Ext.encode(obj));
 	return pa;

@@ -157,8 +157,8 @@
 						id: moduleId
 					});
 				}catch(e){
-					errinfo = "创建Module出现错误!<br>"+moduleName+"<br>"+e.message;
-					MB.alert("错误" , errinfo);
+					errinfo = "创建Module出现错误!\n"+moduleName+"\n"+e.message;
+					alert(errinfo);
 					Ext.log(errinfo);
 					return;
 				}
@@ -179,8 +179,8 @@
 					});
 					this.wrap.add(main);
 				}catch(e){
-					errinfo = "创建Module出现错误!<br>"+moduleName+"<br>"+e.message;
-					MB.alert("错误" , errinfo);
+					errinfo = "创建Module出现错误!\n"+moduleName+"\n"+e.message;
+					alert(errinfo);
 					Ext.log(errinfo);
 					return;
 				}

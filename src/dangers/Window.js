@@ -1,21 +1,23 @@
-Ext.define("WXY.dangers.Window" , {
+
+Ext.define("WXY.dangers.Window", {
     extend: 'WXY.util.AppWindow',
-    require: ['WXY.article.model.Catalog'],
+    require: ['WXY.dangers.model.Catalog'],
     iconCls: "ico_article",
     layout: 'card',
     wsUrl: $CONFIG.wsPath + "KnowledgeWebService.asmx/",
     initComponent: function () {
+
         var me = this;
 
         //分类STORE
-        me.catalogStore = Ext.create("WXY.article.store.Catalog", {
+        me.catalogStore = Ext.create("WXY.dangers.store.Catalog", {
             url: me.wsUrl + "GetSmClssByClssID",
             recordPath: "Chemical",
-            storeId: "article-catalog"
+            storeId: "dangers-catalog"
         });
 
         //列表
-        me.list = Ext.create("WXY.article.List", {
+        me.list = Ext.create("WXY.dangers.List", {
     });
 
     Ext.apply(this, {

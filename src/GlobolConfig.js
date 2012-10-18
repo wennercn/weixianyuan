@@ -5,7 +5,7 @@ Ext.define("WXY.GlobolConfig" , {
 	singleton: true , 
 	version:"1.0.0" , 
 	homeModule : "gis.Index" , 
-	wsPath: "http://192.168.0.110/weixianyuanservice/" , 
+	wsPath: "http://192.168.0.120/weixianyuanservice/" , 
 	ServerDate: new Date() , 
 	constructor: function(config) {
 		var me = this;

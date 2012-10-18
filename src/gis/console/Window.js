@@ -8,6 +8,7 @@ Ext.define("WXY.gis.console.Window" , {
 	closeAction: 'hide' , 
 	width:250 , 
     margins: "38 10 10 10" ,
+    layout: 'fit' , 
     listeners: {
         show: function(win){
             win.getEl().setOpacity(.8);
@@ -16,25 +17,25 @@ Ext.define("WXY.gis.console.Window" , {
             return false;
         }
     } , 
-    tools:[{
-        type:'refresh',
-        tooltip: 'Refresh form Data',
-        // hidden:true,
-        handler: function(event, toolEl, panel){
-            // refresh logic
-        }
-    },
-    {
-        type:'help',
-        tooltip: 'Get Help',
-        handler: function(event, toolEl, panel){
+    tools:[
+        {type:'refresh',tooltip: 'Refresh form Data'},
+        {type:'help',tooltip: 'Get Help',handler: function(event, toolEl, panel){
             // show help here
-        }
-    }] ,
+        }}]
+     ,
 
     initComponent: function(){
         var me = this;
 
+        me.list = Ext.create("WXY.monitorpoint.List");
+
+        me.items = [
+            me.list
+        ];
+
+        this.on("render" , function(){
+            this.list.load();
+        } , this);
         me.callParent();
     } , 
 

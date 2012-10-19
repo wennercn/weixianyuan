@@ -13,6 +13,10 @@ Ext.define('WXY.App' , {
 	} ,
 	start: function(){
 		this.hideDomLoad();
+
+		//创建监控点STORE
+		this.createMPStore();
+
 		try{
 			this.page = Ext.create('WXY.page.ViewPort' , {			
 			});
@@ -25,7 +29,22 @@ Ext.define('WXY.App' , {
 		if (Ext.get('loading-mask')){
 			Ext.get('loading-mask').fadeOut({remove:true});	
 		}
-	}	
+	}, 
+
+	createMPStore: function(){
+		var store = Ext.create("WXY.monitorpoint.store.MonitorPoint" , {
+			recordPath: "Danger" , 
+			groupField: "dangertype" , 
+		    getGroupString: function(r) {
+		        var s = ['' , '传感器' , '监控摄像头'][r.get('dangertype')];
+		        return s;
+		    } , 	
+			storeId:'mp-store' , 
+			url: $CONFIG.wsPath+"monitorpoint.asmx/GetList" , 
+			autoLoad: true
+		});
+		return store;
+	}
 
 });
 

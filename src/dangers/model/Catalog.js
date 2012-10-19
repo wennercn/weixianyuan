@@ -1,9 +1,9 @@
 Ext.define("WXY.dangers.model.Catalog" , {
 	extend: "Ext.data.Model",
-	idProperty: "chemicalid" ,
+	idProperty: "dangerclassid",
 	fields: [
-		{name:"chemicalid" , mapping:"chemicalid"} ,	
-		{name:'parentid' , mapping:'parentid'} ,	
-		{name:'chemicalname' , mapping:'chemicalname'}
+		{ name: "dangerclassid", mapping: "dangerclassid" },
+		{ name: 'parentid', mapping: 'parentid' },
+		{ name: 'classname', mapping: 'classname' }
 	]
 });

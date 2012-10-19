@@ -10,10 +10,16 @@ Ext.define('WXY.ux.BaiDuMapPanel', {
     mapCenterLat: 39.102512 , //默认中心的纬度
     mapZoom: 14 ,               //默认缩放级别
 
+    tipTemplate:"{dangername}", 
+    tipCls:'mp-tip' , 
+
     initComponent : function(){
         var me = this;
 
-        this.addEvents("contextmenu");
+        this.addEvents("mapctxmenu" , "markerctxmenu");
+        if (Ext.isString(me.tipTemplate) || Ext.isArray(me.tipTemplate)){
+            me.tipTemplate = new Ext.XTemplate(me.tipTemplate);
+        }
 
         me.callParent();
     },
@@ -41,7 +47,7 @@ Ext.define('WXY.ux.BaiDuMapPanel', {
         //右键
         map.addEventListener("rightclick", function(obj){
             //obj: type, target, point, pixel, overlay
-            me.fireEvent('contextmenu' , obj)
+            me.fireEvent('mapctxmenu' , obj , obj.domEvent);
         });
 
 
@@ -63,25 +69,11 @@ Ext.define('WXY.ux.BaiDuMapPanel', {
 		//允许滚轮
 		map.enableScrollWheelZoom()
 
-
-
-
         //设置中心位置
-        this.setCenter();        
+        this.setCenter();
 
-
-        var point = new BMap.Point(117.131169, 39.102512);
-        var marker = new BMap.Marker(point);
-        map.addOverlay(marker);
-
-        var label = new BMap.Label("我是文字标注哦",{offset:new BMap.Size(20,-10)});
-        marker.setLabel(label);
-        marker.addEventListener("rightclick" , function(e){
-            var ev= e.domEvent;
-            ev.preventDefault();
-            ev.stopPropagation();
-            //console.log(aa.domEvent.stopPropagation)
-        })
+        //设置信息框
+        this.setTip(); 
     } , 
     //设置中心点
     setCenter: function(){
@@ -101,6 +93,42 @@ Ext.define('WXY.ux.BaiDuMapPanel', {
         }
 
     },
+
+    setTip: function(){
+        var me = this;
+
+        me.tip = Ext.create('Ext.tip.ToolTip', {
+            target: me.getEl(),
+            dismissDelay: 0 , 
+            showDelay: 0 , 
+            delegate: ".BMap_Marker",
+            cls: me.tipCls , 
+            trackMouse: true,
+            renderTo: me.body,
+            listeners: {
+                beforeshow: function updateTipBody(tip) {
+                    var marker = me.getOverlayByElement(tip.triggerElement);
+                    if (!marker) return false;
+                    var record = marker.record;
+                    tip.update(me.tipTemplate.apply(record.data));
+                }
+            }
+        });
+
+    } , 
+
+    //通过HTML标记查找MARKER
+    getOverlayByElement: function(element){
+        var ols = this.map.getOverlays();
+        var ol = null;
+        Ext.each(ols , function(n , i){
+            if (n.domElement == element) {
+                ol = n;
+                return false;
+            }
+        })
+        return ol;
+    } , 
 
     //通过地址查找中心点坐标
     findAddress : function(address , city) {
@@ -138,10 +166,69 @@ Ext.define('WXY.ux.BaiDuMapPanel', {
     },
 
     redraw: function(){
-        var map = this.gmap;
-        if (map) {
-            //google.maps.event.trigger(map, 'resize');
-        }
-    }
+    } , 
 
+    addMarkerFromRecord: function(record , options){
+        var me = this;
+        options = options || {};
+
+        if (Ext.isArray(record)){
+            Ext.each(record , function(n , i){
+                me.addMarkerFromRecord(n , options);
+            } , me);
+            return;
+        }
+
+        var lng = record.get("lng");
+        var lat = record.get("lat");
+        if (Ext.isEmpty(lng) || Ext.isEmpty(lat)) return;
+
+        var map = me.map;
+        //添加标注点
+        //TODO: 改为自定义的标记
+        var point = new BMap.Point(lng, lat);
+
+        var mIcon = new BMap.Icon(
+            "res/img/webcam.png", 
+            new BMap.Size(24,24)
+        );
+        var mShadow = new BMap.Icon(
+            "http://api.map.baidu.com/images/marker_red_sprite.png", 
+            new BMap.Size(39 , 25) , //(20,11) , 
+            {
+                anchor: new BMap.Size(50 , 25) , 
+                imageOffset: new BMap.Size(5,0)
+            }
+        );
+
+        var marker = new BMap.Marker(point , {
+            shadow: mShadow , 
+            icon:mIcon
+        });
+        map.addOverlay(marker);
+        marker.setAnimation(BMAP_ANIMATION_DROP);
+        marker.record = record;
+        record.setMarker(marker);
+
+
+
+
+
+        if (options.label){
+            var label = new BMap.Label( 
+                record.get("dangername"),
+                {offset:new BMap.Size(20,-10)}
+            );
+            marker.setLabel(label);
+        }
+
+        marker.addEventListener("rightclick" , function(e){
+            me.fireEvent('markerctxmenu' , e , record , e.domEvent);
+            //ev.preventDefault();
+            //ev.stopPropagation();
+        });
+
+        return marker;
+
+    }
 });

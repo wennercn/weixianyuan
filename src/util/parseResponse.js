@@ -21,65 +21,93 @@ Ext.define("WXY.util.ParseResponse" , {
 			return this;
 		}
 
-		if (type== "json"){
-			try{
-				var bd = Ext.encode(obj.responseText);
-				//eval("var bd = "+obj.responseText);
-			}catch(e){
-				this.errinfo = "返回的数据为无效的JSON格式,请检查数据!\n\n"+obj.responseText;
-				return this;
-			}
+		switch (type){
+			case 'json':
+				try{
+					var bd = Ext.encode(obj.responseText);
+					//eval("var bd = "+obj.responseText);
+				}catch(e){
+					this.errinfo = "返回的数据为无效的JSON格式,请检查数据!\n\n"+obj.responseText;
+					return this;
+				}
 
-			this.jdata = bd;
-			var status = bd.status;
-			if (!status != 'succ'){
-				this.errinfo = bd.message;
-				return this;
-			}
+				this.jdata = bd;
+				var status = bd.status;
+				if (!status != 'succ'){
+					this.errinfo = bd.message;
+					return this;
+				}
 
-			//返回数据正确
-			this.isok = true;
-			this.serverdate = Ext.Date.parse(bd.serverdate , "Y-m-d H:i:s");
-			this.msg = bd.message;
-			if (bd.data){
-				this.data = bd.data;
-			}
-		}else{
-			var bd = obj.responseXML ? obj.responseXML : obj;
-			var root = Ext.DomQuery.selectNode("root" , bd); // bd.getElementsByTagName("root")[0]
+				//返回数据正确
+				this.isok = true;
+				this.serverdate = Ext.Date.parse(bd.serverdate , "Y-m-d H:i:s");
+				this.msg = bd.message;
+				if (bd.data){
+					this.data = bd.data;
+				}
+				break;
+			case 'xmlnode':
+				var bd = obj.responseXML ? obj.responseXML : obj;
+				var root = Ext.DomQuery.selectNode("root" , bd);
+				var status = Ext.DomQuery.selectNode("status" , bd);
+				var xdata = Ext.DomQuery.selectNode("data" , bd);
+				var serverdate = Ext.DomQuery.selectNode("serverdate" , bd);
 
-			if (!root){
-				this.errinfo =  "返回的数据为无效的XML格式,请检查数据!\n\n"+obj.responseText;
-				return this;
-			}
-			this.xdata = bd;
-			var status = root.getAttribute("status");
-			if (status !="succ"){
-				this.errinfo = root.getAttribute("message");
-				return this;
-			}
-			//返回数据正确
-			this.isok = true;
-			this.serverdate = Ext.Date.parse(root.getAttribute("serverdate") , "Y-m-d H:i:s");
-			this.msg = root.getAttribute("message");
-			this.data =Ext.DomQuery.selectNode("data" , bd);
+				if (!status){
+					this.errinfo =  "返回的数据为无效的XML格式,请检查数据!\n\n"+obj.responseText;
+					return this;
+				}				
+				this.xdata = bd;
+				status = status.firstChild.nodeValue;
+				var msg = Ext.DomQuery.selectNode("message" , bd);
+				msg = msg ? msg.firstChild.nodeValue : "";
+				if (status !="succ"){
+					this.errinfo = msg;
+					return this;
+				}
+				//返回数据正确
+				this.isok = true;
+				this.serverdate = serverdate ? Ext.Date.parse(serverdate , "Y-m-d H:i:s") : "";
+				this.msg = msg;
+				this.data = xdata;
+				break;
+
+			case 'xmlattribute':
+				var bd = obj.responseXML ? obj.responseXML : obj;
+				var root = Ext.DomQuery.selectNode("root" , bd); // bd.getElementsByTagName("root")[0]
+
+				if (!root){
+					this.errinfo =  "返回的数据为无效的XML格式,请检查数据!\n\n"+obj.responseText;
+					return this;
+				}
+				this.xdata = bd;
+				var status = root.getAttribute("status");
+				if (status !="succ"){
+					this.errinfo = root.getAttribute("message");
+					return this;
+				}
+				//返回数据正确
+				this.isok = true;
+				this.serverdate = Ext.Date.parse(root.getAttribute("serverdate") , "Y-m-d H:i:s");
+				this.msg = root.getAttribute("message");
+				this.data =Ext.DomQuery.selectNode("data" , bd);
+				break;
 		}
 
-		if ($CONFIG != undefined) {
+		if ($CONFIG != undefined && this.serverdate) {
 			$CONFIG.ServerDate = this.serverdate;
 		}
-
-
 		return this;
-
-
 	}
 
 });
 
 window.$back = function(obj , type){
-	return WXY.util.ParseResponse.parse(obj , type);
+	return WXY.util.ParseResponse.parse(obj , 'xmlattribute');
 };
-window.$backjson = function(obj , type){
+window.$backNode = function(obj , type){
+	return WXY.util.ParseResponse.parse(obj , 'xmlnode');
+};
+window.$backJson = function(obj , type){
 	return WXY.util.ParseResponse.parse(obj , 'json');
 }

@@ -4,7 +4,7 @@ Ext.define("WXY.dangers.Window", {
     require: ['WXY.dangers.model.Catalog'],
     iconCls: "ico_article",
     layout: 'card',
-    wsUrl: $CONFIG.wsPath + "KnowledgeWebService.asmx/",
+    wsUrl: $CONFIG.wsPath + "DangerWebService.asmx/",
     initComponent: function () {
 
         var me = this;
@@ -12,12 +12,13 @@ Ext.define("WXY.dangers.Window", {
         //分类STORE
         me.catalogStore = Ext.create("WXY.dangers.store.Catalog", {
             url: me.wsUrl + "GetSmClssByClssID",
-            recordPath: "Chemical",
-            storeId: "dangers-catalog"
+            recordPath: "DangerClass",//分类树节点名称
+            storeId: "dangers-catalog" //store:Catalog Form 
         });
 
         //列表
         me.list = Ext.create("WXY.dangers.List", {
+        
     });
 
     Ext.apply(this, {
@@ -34,10 +35,14 @@ reset: function () {
 },
 loadCatalogStore: function () {
     this.catalogStore.load({
-        params: { chemicalid: this.moduleConfig.id },
+        params: { classid: this.moduleConfig.id },
         callback: function (st, rs, rv) {
+             
+            var data= rs.response.responseText;//数据
+            //alert(data);
             //console.log(st);
         }
     });
 }
 });
+//@ sourceURL=src/dangers/Window.js

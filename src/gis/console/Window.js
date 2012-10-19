@@ -3,6 +3,7 @@ Ext.define("WXY.gis.console.Window" , {
 	title:'监控控制台' , 
     collapsible: true , 
     closable: false , 
+    border: false, 
     //draggable: false , 
     resizable: false , 
 	closeAction: 'hide' , 
@@ -33,10 +34,10 @@ Ext.define("WXY.gis.console.Window" , {
             me.list
         ];
 
-        this.on("render" , function(){
-            this.list.load();
-        } , this);
         me.callParent();
+        me.on("render" , function(){
+            me.list.initMain();
+        } , me);
     } , 
 
     setSizeAndPosition: function(){

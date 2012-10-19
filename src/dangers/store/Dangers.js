@@ -1,7 +1,7 @@
 Ext.define("WXY.dangers.store.Dangers" , {
-	extend:"Ext.data.Store" , 
-	requires: ["WXY.article.model.Article"] ,
-	model: 'WXY.article.model.Article',
+	extend:"Ext.data.Store" ,
+	requires: ["WXY.dangers.model.Dangers"],
+	model: 'WXY.dangers.model.Dangers',
 	sorters: [
 		{property:"sort" , direction:"ASC"} , 
 		{property:"etb1" , direction:"ASC"} 

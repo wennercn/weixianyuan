@@ -1,16 +1,21 @@
 Ext.define('WXY.monitorpoint.List', {
 	extend: 'Ext.grid.Panel',
 	autoScroll: true ,
-	features: {ftype:"grouping" , groupHeaderTpl: '分组: {name}'} , 
+	features: {ftype:"grouping" , groupHeaderTpl: '{name} ({rows.length})'} , 
+	hideHeaders: true , 
 	columns: [
-		{xtype: 'rownumberer' , text:"序号" , width:30},
-		{text:"标题" , dataIndex:'dangername'}
+		//{xtype: 'rownumberer' , text:"序号" , width:30},
+		{text:'status' , width:35 , dataIndex:'status' , renderer:function(v , td , r){
+			td.tdCls = 'mp-grid-status ico_status_ok';
+			return "";
+		}} , 
+		{text:"标题" , dataIndex:'dangername' , flex:1}
 	] ,	
 	initComponent: function(){
 		var me = this;
 
 		Ext.apply(me , {
-			store: me.createStore() , 
+			store: 'mp-store' , //Ext.data.StoreManager.lookup('mp-store') || me.createStore() , 
 			dockedItems: me.createDockedItems() , 
 			viewConfig: {
 				preserveScrollOnRefresh : true, 
@@ -28,59 +33,27 @@ Ext.define('WXY.monitorpoint.List', {
 			scope: this
 		});
 	} ,
-
 	/**
 	 * 显示每行的cls
 	 */
 	getRowClass: function(r , rindxe , rp , ds){
 		return "";
 	} , 
+
 	initMain: function(config){
 		config = config || {};
 		this.win = this.up("window");
-		this.win.setTitle("查看 "+this.win.moduleConfig.type+" 列表");
-		this.win.setIconCls('ico_article');
-		if (config.disableInit) return;
-		this.load();
+		this.mappanel = this.win.parent;
+		this.map = this.mappanel.map;
 	} , 
-	/**
-	 * 创建STORE
-	 * @return {Ext.data.Store}
-	 */
-	createStore: function(){
-		var store = Ext.create("WXY.monitorpoint.store.MonitorPoint" , {
-			recordPath: "Danger" , 
-			groupField: "dangertype"
-		});	
-		return store;
-	} , 
-	/**
-	* 读取数据;
-	*/
-	load: function(params){
-		this.setLoading("读取数据...");
-		var pa = {};
-		this.store.load({
-			url: $CONFIG.wsPath+"monitorpoint.asmx/GetList" , 
-			params: pa , 
-			callback: function(records , ops , succ){
-				this.setLoading(false);
-				if (!succ) return;
-				if (this.afterLoad) this.afterLoad(records);
-			} ,
-			scope: this
-		});
-	} , 
-
-
-
     /**
      * 创建DOCKEDS
      * @return {Array}
      */
 	createDockedItems: function(){
 		var dockes = [
-			{xtype:"toolbar" , dock:'top' , items:[
+			/*
+			{xtype:"toolbar" , dock:'top' , enableOverflow: true , items:[
 				{text:"<b>添加</b>" , iconCls:"ico_add" , handler: this.onCreate , scope:this} , '-' , 
 				{text:"修改" , iconCls:"ico_edit" , itemId:"edit" , disabled:true , handler: this.onEdit , scope:this} , '-' , 
 				{text:"删除" , iconCls:"ico_delete" , itemId:"delete" , disabled:true , handler: this.onDelete , scope:this} , '-' , 
@@ -98,6 +71,7 @@ Ext.define('WXY.monitorpoint.List', {
 				}} , '-' , 
 				{text:'刷新' , iconCls:'ico_refresh' , handler:this.onRefresh , scope:this}
 			]}
+			*/
 		];
 		return dockes;
 	} , 
@@ -202,7 +176,7 @@ Ext.define('WXY.monitorpoint.List', {
 	* 双击表格打开详细信息
 	*/
 	onDblclick: function(view , record , el , rindex , ev){
-		this.showDetail(record);
+		record.panToMarker();
 	} , 
 
 	showDetail: function(record){

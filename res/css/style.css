@@ -35,3 +35,8 @@ body {background: url(../img/mask-bg.jpg) repeat-x  #DAE3E9 0 0;}
 .gridtree .x-grid-row .x-grid-cell {border-bottom:#f7f7f7 solid 1px;padding:2px 0;font:bold 14px arial;color:#0265dc}
 .gridtree .x-grid-table {border-collapse:collapse}
 .gridtree .x-grid-tree-node-leaf .x-grid-cell {font:normal 12px arial;color:#000}
+
+
+/*监控点表格*/
+.mp-grid-status {background-position:center;background-repeat:no-repeat;}
+.mp-tip {line-height:150%}

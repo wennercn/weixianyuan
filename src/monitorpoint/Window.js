@@ -13,7 +13,7 @@ Ext.define("WXY.monitorpoint.Window" , {
 	} , 
 
 	//显示表单
-	showForm: function(){
+	showForm: function(options){
 		if (!this.form){
 			this.form = Ext.widget({
 				xtype: 'monitorpointform'
@@ -21,7 +21,7 @@ Ext.define("WXY.monitorpoint.Window" , {
 			this.add(this.form);
 		}
 		this.show();
-		this.setCardActive(this.form);
+		this.setCardActive(this.form , options);
 	}
 
 });

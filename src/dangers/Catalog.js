@@ -6,8 +6,8 @@ Ext.define('WXY.dangers.Catalog', {
 	selModel: {mode: 'SINGLE'} ,
 	columns: [
 		{xtype: 'rownumberer' , text:"序号" , width:30},
-		{text:"分类ID" , dataIndex:'chemicalid' , align:'center'} , 
-		{text:'分类名称' , dataIndex:'chemicalname' , flex:1}
+		{ text: "分类ID", dataIndex: 'dangerclassid', align: 'center' },
+		{ text: '分类名称', dataIndex: 'classname', flex: 1 }
 	] ,
 	
 	initComponent: function(){
@@ -27,8 +27,8 @@ Ext.define('WXY.dangers.Catalog', {
 				]}
 			] , 
 			items:[
-				{xtype:"textfield" , fieldLabel:"分类名称" , name:"chemicalname" , allowBlank:false , anchor:"100%"} ,
-				{xtype:"textarea" , fieldLabel:"备注" , name:"remark" , anchor:"100%"}
+				{xtype:"textfield" , fieldLabel:"分类名称" , name:"classname" , allowBlank:false , anchor:"100%"} ,
+				{xtype:"textarea" , fieldLabel:"备注" , name:"detail" , anchor:"100%"}
 			]
 		});
 
@@ -84,8 +84,8 @@ Ext.define('WXY.dangers.Catalog', {
 
 		MB.loading("保存信息");
 		Ext.Ajax.request({
-			url: this.win.wsUrl+"AddChemical" ,
-			params: $params(fv , 'chemical') ,
+		    url: this.win.wsUrl + "AddDanClass",//添加分类
+		    params: $params(fv, 'classname'), //classname参数名称
 			success: this._save,
 			failure: $failure ,
 			scope: this

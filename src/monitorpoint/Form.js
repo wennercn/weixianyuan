@@ -14,15 +14,17 @@ Ext.define("WXY.monitorpoint.Form" , {
 	},
 	defaultType:"textfield" ,
     initComponent: function(){
+    	var configData = WXY.gis.Config;
 		var req = "<span style='color:red'>*</span>";
 		Ext.apply(this , {
 			items: [
-				{xtype:"mycombo" , fieldLabel:"类型" , name:"dangertype" , _data:[['1', "传感器"] ,['2' , "监控摄像头"]] , 
+				{xtype:"mycombo" , fieldLabel:"类型" , name:"dangertype" , _data:configData.dangerTypeComboData , 
 					allowBlank:false , value:'1' , editable:false , afterLabelTextTpl:req} , 
 				{fieldLabel:"名称"  , name:"dangername" , allowBlank:false , afterLabelTextTpl:req},
 				{fieldLabel:"物理编码"  ,  name:"dangercode" , allowBlank:false , afterLabelTextTpl:req} ,
 				{fieldLabel:"位置坐标"  , name:"lnglat" , allowBlank:false , readOnly:true ,afterLabelTextTpl:req} , 
-				{xtype:"mycombo" , fieldLabel:"所在位置" , name:"location" , _data:["华天道" ,"梅苑路"]} , 
+				{xtype:"mycombo" , fieldLabel:"状态" , name:"status" , _data:[['ok' , '正常'] , ['disable' , '停用']] , value:'ok' , editable:false} , 
+				{xtype:"mycombo" , fieldLabel:"所在位置" , name:"location" , _data:configData.locationComboData} , 
 				{fieldLabel:"地址说明"  , name:"address"} ,
 				{fieldLabel:"备注"  , xtype:"textarea" , name:"description"},
 				{xtype:'hidden' , name:'dangerid' , value:0}

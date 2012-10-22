@@ -37,7 +37,7 @@ Ext.define('WXY.page.LogoBar' , {
 					items:[
 						{text:'重大危险源分级' , module: 'article.Window' , moduleConfig:{type:"重大危险源分级" , id:5} , isWindow:true} , 
 						{xtype:'menuseparator'} , 
-						{text:'传感器管理'} , 
+						{text:'传感器管理' , disabled:true} , 
 						{xtype:'menuseparator'} , 
 						{text:'事故相应级别管理' , module: 'article.Window' , moduleConfig:{type:"事故相应级别管理" , id:5} , isWindow:true} , 
 						{text:'企业基本信息' , module: 'article.Window' , moduleConfig:{type:"企业基本信息" , id:5} , isWindow:true}

@@ -43,6 +43,7 @@
 
 /*GIS 地图*/
 .ico_gis {background-image:url(../ico/gis/gis.png);}
+.ico_control {background-image:url(../ico/gis/control.png);}
 
 /*ARTICLE 知识库*/
 .ico_article {background-image:url(../ico/article/article.png);}
@@ -61,6 +62,7 @@
 
 /*监控状态*/
 .ico_status_ok {background-image:url(../ico/status/ok.gif);}
+.ico_status_disable {background-image:url(../ico/status/disable.gif);}
 
 
 

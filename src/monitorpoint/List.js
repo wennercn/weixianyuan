@@ -6,7 +6,7 @@ Ext.define('WXY.monitorpoint.List', {
 	columns: [
 		//{xtype: 'rownumberer' , text:"序号" , width:30},
 		{text:'status' , width:35 , dataIndex:'status' , renderer:function(v , td , r){
-			td.tdCls = 'mp-grid-status ico_status_ok';
+			td.tdCls = 'mp-grid-status ico_status_'+v;
 			return "";
 		}} , 
 		{text:"标题" , dataIndex:'dangername' , flex:1}
@@ -27,6 +27,7 @@ Ext.define('WXY.monitorpoint.List', {
 		
 		this.callParent();
 		this.on({
+			itemcontextmenu: this.onCtxMenu , 
 			itemdblclick: this.onDblclick , 
 			selectionchange: this.onSelectionChange , 
 			destroy: this.onDestroy ,
@@ -52,143 +53,109 @@ Ext.define('WXY.monitorpoint.List', {
      */
 	createDockedItems: function(){
 		var dockes = [
-			/*
 			{xtype:"toolbar" , dock:'top' , enableOverflow: true , items:[
-				{text:"<b>添加</b>" , iconCls:"ico_add" , handler: this.onCreate , scope:this} , '-' , 
-				{text:"修改" , iconCls:"ico_edit" , itemId:"edit" , disabled:true , handler: this.onEdit , scope:this} , '-' , 
-				{text:"删除" , iconCls:"ico_delete" , itemId:"delete" , disabled:true , handler: this.onDelete , scope:this} , '-' , 
-				{text:"查看" , iconCls:"ico_view" , itemId:"detail" , disabled:true , handler: this.onDetail , scope:this} , 
-				'->' , 
 				{xtype:'textfield' , enableKeyEvents:true , emptyText:'请输入关键字...' , listeners:{
 					keyup: function(el){
 						var v = el.getValue();
-						console.log(v);
 						this.getStore().filterBy(function(r){
-							return r.get("title").indexOf(v) > -1 || r.get("detail").indexOf(v) > -1;
+							return r.get("dangername").indexOf(v) > -1 || r.get("dangercode").indexOf(v) > -1;
 						})
 					} , 
 					scope: this
-				}} , '-' , 
-				{text:'刷新' , iconCls:'ico_refresh' , handler:this.onRefresh , scope:this}
+				}} , '->' , 
+				{text:'操作' , iconCls1:'x-toolbar-more-icon' , menu:{
+					items:[
+						{text:"添加监控点" , iconCls:"ico_add" , handler: this.onCreate , scope:this} , '-' , 
+						{text:"修改" , iconCls:"ico_edit" , itemId:"edit" , disabled:true , handler: this.onEdit , scope:this} , 
+						{text:"删除" , iconCls:"ico_delete" , itemId:"delete" , disabled:true , handler: this.onDelete , scope:this} ,  
+						{text:"查看" , iconCls:"ico_view" , itemId:"detail" , disabled:true , handler: this.onDetail , scope:this} , '-' , 
+						{text:'刷新' , iconCls:'ico_refresh' , handler:this.onRefresh , scope:this}
+					]
+				}}
 			]}
-			*/
 		];
 		return dockes;
 	} , 
 
 	//添加
 	onCreate: function(){
-		this.win.setCardActive(this.getForm());
-	} , 
-
-	//创建表单
-	getForm: function(){
-		if (!this.win.form){
-			var form = Ext.create("WXY.article.Form" , {
-			});
-			this.win.form = this.win.add(form);
-		}
-		return this.win.form;
+		var mpw = this.getMPWindow();
+		mpw.showForm();
 	} , 
 
 	//修改
 	onEdit: function(){
 		var record = this.getSelectionModel().getSelection()[0];
 		if (!record) return;
-		this.win.setCardActive(this.getForm() , {record: record});
+		var mpw = this.getMPWindow();
+		mpw.showForm({
+			record: record
+		});
 	} , 
 
 	//删除
 	onDelete: function(){
 		var record = this.getSelectionModel().getSelection()[0];
 		if (!record) return;
-		this.forDeleteRecord = record;
-		MB.confirm("删除信息?" , "是否要删除该条记录!" , this.execDelete , this);
-	} , 
-
-	execDelete: function(result){
-		if (result == "no") return;
-		MB.loading("删除信息");
-		Ext.Ajax.request({
-			url: this.win.wsUrl+"DeleteKnowledge" , 
-			params: {knowledgeid: this.forDeleteRecord.get("knowledgeid")} ,
-			success: function(data){
-				var bd = $back(data);
-				if (!bd.isok){
-					MB.alert("错误" , bd.getErrorInfo());
-					return;
-				}
-				MB.hide();
-				this.getStore().remove(this.forDeleteRecord);
-				this.forDeleteRecord = null;
-			},
-			failure: $failure ,
-			scope: this
-		});
+		record.delete();
 	} , 
 
 	//查看
 	onDetail: function(){
 		var record = this.getSelectionModel().getSelection()[0];
 		if (!record) return;
-		this.showDetail(record);
+		record.detail();
 	} , 
 
 	//刷新
 	onRefresh: function(){
-		this.load();
+		this.getStore().load();
 	} , 
-
-	/**
-	*右键菜单
-	*/
-	onCtxClick: function(v , r , item , i , ev){
-		if (!this.ctxMenu) {
-			this.ctxMenu = Ext.create("WXY.article.CtxMenu" , {});
-		}
-		var menu = this.ctxMenu;
-		ev.stopEvent();
-		menu.setPlan(r);
-		this.ctxrecord = r;
-		menu.showAt(ev.getXY());
-		//船名
-		//menu.getComponent(0).setText('<b style="color:blue">'+r.get("shipname")+"</b>&nbsp;&nbsp;&nbsp;&nbsp;");
-	} ,
 
 	/**
 	*当表格选择发生变化时候进行处理
 	*/
 	onSelectionChange: function(sm , rs){
-		//按钮
 		var btns = ["apply" , "edit" , "delete" , "detail"];
 		Ext.each(btns , function(n){
 			var btn = this.down("#"+n);
 			if (btn) btn.setDisabled(rs.length == 0);
 		} , this);
-
-		//过滤树
-		var tree = this.down("#planlist_tree");
-		if (!tree) return;
-		//alert(tree.getSelectionModel().getSelection())
 	} ,
 
 	/**
-	* 双击表格打开详细信息
+	* 双击表格
 	*/
 	onDblclick: function(view , record , el , rindex , ev){
 		record.panToMarker();
 	} , 
 
-	showDetail: function(record){
-		var win = this.win;
-		if (!win.detail){
-			win.detail = win.add(Ext.create("WXY.article.Detail" , {
-
-			}));
+	/**
+	 * 右键菜单
+	 */
+	onCtxMenu: function(view , record , el , index , ev){
+		this.markerCtxMenu = Ext.getCmp("marker-ctxmenu");
+		if (!this.markerCtxMenu){
+			this.markerCtxMenu = Ext.create("WXY.gis.MarkerCtxMenu");
 		}
-		win.setCardActive(win.detail , {
-			record: record	
+		this.markerCtxMenu.open({
+			x: ev.getX() , 
+			y: ev.getY() , 
+			record: record , 
+			ev: ev , 
+			parent: this
 		});
+	} , 
 
+	//获取表单窗口
+	getMPWindow: function(){
+		this.mpwindow = Ext.getCmp("monitorpoint-window");
+		/*
+		if (!this.mpwindow){
+			this.mpwindow = Ext.create("WXY.monitorpoint.Window");			
+		}
+		*/
+		return this.mpwindow;
 	}
+
 });

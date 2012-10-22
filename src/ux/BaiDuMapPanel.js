@@ -29,11 +29,6 @@ Ext.define('WXY.ux.BaiDuMapPanel', {
         me.callParent()
         me.setLoading("读取数据信息");
         me.createMap();
-        var hideLoading = function(){
-            me.setLoading(false);
-            me.map.removeEventListener("tilesloaded", hideLoading);  
-        }
-        me.map.addEventListener("tilesloaded" , hideLoading);
     },
 
     //创建地图
@@ -49,6 +44,15 @@ Ext.define('WXY.ux.BaiDuMapPanel', {
             //obj: type, target, point, pixel, overlay
             me.fireEvent('mapctxmenu' , obj , obj.domEvent);
         });
+
+        //如果已经添加了一个点,认为已经load
+        map.addEventListener('addoverlay' , function(){
+            var ols = map.getOverlays();
+            if (ols.length == 1){
+                me.fireEvent('mapload');
+                me.setLoading(false);           
+            }
+        })
 
 
         //初始化
@@ -96,7 +100,6 @@ Ext.define('WXY.ux.BaiDuMapPanel', {
 
     setTip: function(){
         var me = this;
-
         me.tip = Ext.create('Ext.tip.ToolTip', {
             target: me.getEl(),
             dismissDelay: 0 , 
@@ -145,27 +148,17 @@ Ext.define('WXY.ux.BaiDuMapPanel', {
         );
     },
 
-    addMarker: function(marker) {
-        marker = Ext.apply({
-            map: this.gmap
-        }, marker);
-
-        if (!marker.position) {
-            marker.position = new google.maps.LatLng(marker.lat, marker.lng);
-        }
-        var o =  new google.maps.Marker(marker);
-        Ext.Object.each(marker.listeners, function(name, fn){
-            google.maps.event.addListener(o, name, fn);
-        });
-        return o;
-    },
-
     afterComponentLayout : function(w, h){
         this.callParent(arguments);
         this.redraw();
     },
 
     redraw: function(){
+    } , 
+
+    removeMarkerFromRecord: function(record){
+        var map = this.map;
+        map.removeOverlay(record.marker);
     } , 
 
     addMarkerFromRecord: function(record , options){
@@ -178,54 +171,18 @@ Ext.define('WXY.ux.BaiDuMapPanel', {
             } , me);
             return;
         }
-
-        var lng = record.get("lng");
-        var lat = record.get("lat");
-        if (Ext.isEmpty(lng) || Ext.isEmpty(lat)) return;
-
         var map = me.map;
         //添加标注点
         //TODO: 改为自定义的标记
-        var point = new BMap.Point(lng, lat);
 
-        var mIcon = new BMap.Icon(
-            "res/img/webcam.png", 
-            new BMap.Size(24,24)
-        );
-        var mShadow = new BMap.Icon(
-            "http://api.map.baidu.com/images/marker_red_sprite.png", 
-            new BMap.Size(39 , 25) , //(20,11) , 
-            {
-                anchor: new BMap.Size(50 , 25) , 
-                imageOffset: new BMap.Size(5,0)
-            }
-        );
+        var marker = record.setMarker(options);
+        if (!marker) return;
 
-        var marker = new BMap.Marker(point , {
-            shadow: mShadow , 
-            icon:mIcon
-        });
         map.addOverlay(marker);
         marker.setAnimation(BMAP_ANIMATION_DROP);
-        marker.record = record;
-        record.setMarker(marker);
-
-
-
-
-
-        if (options.label){
-            var label = new BMap.Label( 
-                record.get("dangername"),
-                {offset:new BMap.Size(20,-10)}
-            );
-            marker.setLabel(label);
-        }
 
         marker.addEventListener("rightclick" , function(e){
             me.fireEvent('markerctxmenu' , e , record , e.domEvent);
-            //ev.preventDefault();
-            //ev.stopPropagation();
         });
 
         return marker;

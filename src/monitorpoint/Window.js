@@ -3,8 +3,9 @@ Ext.define("WXY.monitorpoint.Window" , {
 	requires:[
 		'WXY.monitorpoint.Form'
 	] , 
-	width:500 , 
-	height:350 , 
+	id: 'monitorpoint-window' , 
+	width:550 , 
+	height:400 , 
 	layout:'card' , 
 	wsUrl: $CONFIG.wsPath+"monitorpoint.asmx/" , 	
 	initComponent: function(){

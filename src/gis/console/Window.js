@@ -19,8 +19,8 @@ Ext.define("WXY.gis.console.Window" , {
         }
     } , 
     tools:[
-        {type:'refresh',tooltip: 'Refresh form Data'},
-        {type:'help',tooltip: 'Get Help',handler: function(event, toolEl, panel){
+        {type:'refresh',tooltip: '刷新'},
+        {type:'help',tooltip: '查看帮助',handler: function(event, toolEl, panel){
             // show help here
         }}]
      ,

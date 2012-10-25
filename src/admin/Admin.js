@@ -13,8 +13,8 @@ Ext.define('WXY.admin.Admin' , {
 		this.Id = node.getAttribute("id");
 	} ,
 	checkSession: function(options){
-		//this.startApp();
-		//return;
+		this.startLogin();
+		return;
 		this.from = options ? options.from : "";
 		Ext.Ajax.request({
 			url:"ws/admin.asmx/CheckSession" ,
@@ -57,12 +57,16 @@ Ext.define('WXY.admin.Admin' , {
 	} ,
 	logout: function(){
 		MB.loading("退出系统");
+		window.location.reload();
+		return;
 		Ext.Ajax.request({
 			//url: "ws/admin.asmx/Logout" ,
 			params: {action:"logout"} ,
 			method:"POST",
 			success:function(){
+				
 				window.location.reload();
+				return;
 			} ,
 			failure: function(o){
 				MB.alert("错误" , o.responseText)

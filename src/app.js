@@ -8,28 +8,32 @@ Ext.define('WXY.App' , {
 	},
 	check: function(){
 		//检测用户信息
-		//$ADMIN.checkSession({from:"init"});
-		this.start();
+		$ADMIN.checkSession({from:"init"});
+		//this.start();
 	} ,
 	start: function(){
 		this.hideDomLoad();
-
 		//创建监控点STORE
 		this.createMPStore();
-
-		try{
-			this.page = Ext.create('WXY.page.ViewPort' , {			
-			});
-		}catch(e){
-			MB.alert(e.message);
-		}
+		this.createPage();
 	} , 
+	
 	hideDomLoad: function(){
 		if (Ext.get("loading")) Ext.get('loading').fadeOut({remove:true});
 		if (Ext.get('loading-mask')){
 			Ext.get('loading-mask').fadeOut({remove:true});	
 		}
 	}, 
+
+	createPage: function(){
+		try{
+			this.page = Ext.create('WXY.page.ViewPort' , {			
+		});
+		}catch(e){
+			MB.alert("createPage错误" , e.message+"<br>app.js");
+			return;
+		}
+	} , 
 
 	createMPStore: function(){
 		var store = Ext.create("WXY.monitorpoint.store.MonitorPoint" , {

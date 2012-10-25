@@ -63,6 +63,7 @@
 /*监控状态*/
 .ico_status_ok {background-image:url(../ico/status/ok.gif);}
 .ico_status_disable {background-image:url(../ico/status/disable.gif);}
+.ico_status_warning {background-image:url(../ico/status/warning.gif);}
 
 
 

@@ -8,12 +8,12 @@ Ext.define("WXY.gis.MarkerCtxMenu" , {
 		items.push(
 			{text:"监控点" , itemId:"title" , iconCls:"" , style:{fontWeight:"bold"} , hideOnClick:false} ,
 			{xtype:'menuseparator'} , 			
-			{text:'查看监控信息' , iconCls:"ico_detail"} , 			
+			{text:'查看信息' , iconCls:"ico_detail" , handler:this.detailMP , scope:this} , 			
 			{xtype:'menuseparator'} , 
 			{text:'数据控制' , iconCls:"ico_control" , menu:{
 				items:[
-					{text:"关闭监控" , disabled:true} , 
-					{text:"忽略当前预警" , disabled:true}
+					{text:"关闭监控" , handler: this.stopMP , scope:this} , 
+					{text:"忽略当前预警" , handler: this.stopWarning , scope:this}
 				]
 			}} , 	
 			{xtype:'menuseparator'} , 
@@ -31,8 +31,8 @@ Ext.define("WXY.gis.MarkerCtxMenu" , {
 		this.showAt(cfg.x , cfg.y);
 		this.getComponent(0).setText('<b style="color:blue">'+record.get("dangertypename")+":"+record.get("dangername")+"</b>&nbsp;&nbsp;&nbsp;&nbsp;");
 
-   		ev.preventDefault();
-        ev.stopPropagation();
+		ev.preventDefault();
+		ev.stopPropagation();
 	} , 
 
 	//编辑监控点
@@ -56,4 +56,15 @@ Ext.define("WXY.gis.MarkerCtxMenu" , {
 		this.record.delete();
 	} , 
 
+	detailMP: function(){	
+		this.record.detail();
+	} , 
+	
+	stopMP: function(){
+		this.record.stop();
+	} , 
+
+	stopWarning: function(){
+		this.record.stopWarning();	
+	}
 });

@@ -1,15 +1,13 @@
-﻿Ext.define('WXY.page.Page' , {
+﻿﻿Ext.define('WXY.page.Page' , {
 	    extend: 'Ext.panel.Panel',
 		alias: 'wd.page' ,
 		initComponent: function(){
-
 			this.logobar = Ext.create('WXY.page.LogoBar', {
 				listeners: {
 					"menuclick": this.onBarClick ,
 					scope: this
 				}
 			});
-
 			this.statusbar = Ext.create('WXY.page.StatusBar' , {
 				listeners: {
 					"menuclick": this.onBarClick ,
@@ -133,6 +131,10 @@
 		var moduleId = menu.moduleId || moduleName.replace(/\./ig , "_");
 		var moduleConfig = menu.moduleConfig || {};
 		var moduleMethod = menu.moduleMethod || "";
+		moduleConfig = Ext.apply(
+			moduleConfig , 
+			{moduleText: menu.text || ""}
+		);
 
 		//如果是弹出一个浏览器窗口window.open
 		if (menu.isOutUrl) {

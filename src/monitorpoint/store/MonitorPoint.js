@@ -1,6 +1,6 @@
 Ext.define("WXY.monitorpoint.store.MonitorPoint" , {
 	extend:"Ext.data.Store" , 
-	requires: ["WXY.monitorpoint.model.MonitorPoint"] ,
+	requires: [	'WXY.gis.Config' , "WXY.monitorpoint.model.MonitorPoint"] ,
 	model: 'WXY.monitorpoint.model.MonitorPoint',
 	constructor: function(config){
 		var me = this;

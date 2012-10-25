@@ -27,7 +27,7 @@ body {background: url(../img/mask-bg.jpg) repeat-x  #DAE3E9 0 0;}
 
 
 .topbg  , .x-nlg .topbg{background:url(../img/topbg.jpg) !important}
-.loginwin {background:url(../img/loginbg.jpg) right bottom no-repeat}
+.loginwin {background:url(../img/loginbg.jpg) right bottom no-repeat !important}
 .login_btn .x-btn-text {font:bold 14px arial}
 .pagehome {padding: 10px;line-height:200%;font-size:14px;background:url(../img/homebg.png) bottom right no-repeat}
 

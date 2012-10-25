@@ -9,7 +9,7 @@ Ext.define("WXY.gis.Config" , {
 		2: {name:'监控摄像头' , code:'webcam'}
 	} , 
 
-	dangerStatus: {
+	dangerStatusData: {
 		ok : '正常' , 
 		disable : '停用' , 
 		unkonw: '未知' , 

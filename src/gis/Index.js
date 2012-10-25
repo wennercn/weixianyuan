@@ -7,7 +7,6 @@ Ext.define("WXY.gis.Index" , {
 		'WXY.gis.MarkerCtxMenu' , 
 		'WXY.monitorpoint.Window'
 	] ,
-
 	mapCenterAddress: '国际创业中心' , 
 	mapCenterCity: '天津' ,
 	mapZoom: 18 , 

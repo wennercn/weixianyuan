@@ -1,19 +1,18 @@
 ﻿Ext.define('WXY.admin.LoginWindow' , {
 	extend: "Ext.Window" ,
-	iconCls: 'ico_login' , 
 	initComponent: function(){
 		this.addEvents(
 			'afterlogin'
 		);
 		var form = this.formpanel = Ext.create("Ext.form.FormPanel" , {
-			bodyPadding:"150  0 0 0" ,
+			bodyPadding:"150 0 0 0" ,
 			border:false ,
 			bodyCls: "loginwin" ,
 			fieldDefaults: {
 				msgTarget: 'side',
 				labelWidth: 50 ,
-				margin:"15 50 10 330" ,
-				style:"font:bold 14px tahoma;font-size:14px"
+				margin:"15 0 0 330" ,
+				labelStyle:"font:bold 14px tahoma;font-size:14px"
 			},
 			defaultType: 'textfield',
 			items:[
@@ -25,13 +24,15 @@
 					queryMode:"local" ,
 					triggerAction: 'all' ,
 					itemId:"username" ,
-					name:"u_name"
+					name:"u_name" , 
+					allowBlank:false , 
+					blankText:"请输入用户名!"
 				}) ,
-				{inputType:"password" , type:"password" , fieldLabel:"密码" , itemId:"password" , name:"u_pass" , allowBlank:false}
+				{inputType:"password" , type:"password" , fieldLabel:"密码" , itemId:"password" , name:"u_pass" , allowBlank:false , blankText :"请输入密码!"}
 			]
 		})
 
-		this.btn = Ext.create("Ext.button.Button" , {text:"登　录" , 	cls:"login_btn" , itemId:"login_btn" , iconCls:"ico_login" , handler:this.login , scope:this});
+		this.btn = Ext.create("Ext.button.Button" , {text:"<B> 登录 </B>" , scale:"medium" ,	cls:"login_btn" , itemId:"login_btn" , iconCls:"icon_savemedium" , handler:this.login , scope:this});
 
 		Ext.apply(this , {
 			title:"用户登录" ,
@@ -39,7 +40,7 @@
 			width: 600 ,
 			height: 380 ,
 			buttonsAlign: 'left',
-			//padding:10 ,
+			padding:"5 10 5 10" ,
 			closable: false,
 			plain: true,
 			resizable: false ,
@@ -49,7 +50,7 @@
 			items: form ,
 			buttons:[
 				this.btn ,
-				{text:"清除登录历史" , handler:function(){
+				{text:"清除登录历史" , scale:"medium" , handler:function(){
 					Ext.util.Cookies.clear("userlogin_history");
 					this.loadUserLoginHistory();
 				} , scope:this}
@@ -90,21 +91,6 @@
 			return;
 		}
 		var fvs = f.getValues();
-		var me = this;
-		if (fvs.u_name !='admin' || fvs.u_pass !='admin') {
-			MB.alert("验证错误" , "请输入正确的用户名及密码!");
-			me.endloading();
-			return;
-		}
-
-		$ADMIN.Name = fvs.u_name;
-
-		setTimeout(function(){
-			me.hide()
-			me.endloading();
-			me.fireEvent('afterlogin', this);
-		} , 2000);
-		return;
 
 		Ext.Ajax.request({
 			//url:"ws/admin.asmx/CheckLogin" ,
@@ -158,6 +144,6 @@
 	endloading : function(){
 		this.loadmask.hide();
 		this.btn.enable()
-		this.btn.setText("登录")
+		this.btn.setText("<B> 登录 </B>")
 	}
 })

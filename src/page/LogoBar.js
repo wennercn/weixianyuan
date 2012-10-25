@@ -1,4 +1,4 @@
-﻿ /*主菜单*/
+﻿﻿ /*主菜单*/
 Ext.define('WXY.page.LogoBar' , {
 	extend: 'Ext.toolbar.Toolbar',
 	alias: 'wd.logobar' ,
@@ -37,35 +37,39 @@ Ext.define('WXY.page.LogoBar' , {
 					items:[
 						{text:'重大危险源分级' , module: 'article.Window' , moduleConfig:{type:"重大危险源分级" , id:5} , isWindow:true} , 
 						{xtype:'menuseparator'} , 
-						{text:'传感器管理' , disabled:true} , 
-						{xtype:'menuseparator'} , 
+						//{text:'传感器管理' , disabled1:true , module:'temp.Window' , isWindow:true} , 
+						//{xtype:'menuseparator'} , 
 						{text:'事故相应级别管理' , module: 'article.Window' , moduleConfig:{type:"事故相应级别管理" , id:5} , isWindow:true} , 
 						{text:'企业基本信息' , module: 'article.Window' , moduleConfig:{type:"企业基本信息" , id:5} , isWindow:true}
 					]
 				}} , '-' ,
 				{iconCls:"ico_stat" ,text:"数据分析" , menu: {
+					defaults: {handler: this.onClick , scope:this , isWindow:true} , 
 					items:[
-						{text:"数据统计分析"} ,
-						{text:"事故后果模拟"} ,
-						{text:"人员疏散模拟"} ,
-						{text:"应急过程日志及评价"}
+						{text:"数据统计分析" , module:'temp.Window' , isWindow:true , moduleConfig:{bg:"tj.jpg" , width:897 , height:595}} 
+						/*
+						{text:"事故后果模拟" , module:'temp.Window' , isWindow:true} ,
+						{text:"人员疏散模拟" , module:'temp.Window' , isWindow:true} ,
+						{text:"应急过程日志及评价" , module:'temp.Window' , isWindow:true}
+						*/
 					]}
 				} ,  '-' , 
-
+				/*
 				{iconCls:"ico_setting" , text:"系统设置" , menu:{
 					items: [
-						{text:"系统基本设置" , iconCls:"icon_baseinfo" , module:"SysInfo" , handler:this.onClick , scope:this} , '-' ,
-						{text:"人员管理" , iconCls:"icon_opera" , tooltip:"人员管理" , module:"Manager" , handler:this.onClick , scope:this} , '-' ,
-						{text:"数据备份/还原"} ,
-						{text:"查看系统日志"} ,
+						{text:"系统基本设置" , iconCls:"icon_baseinfo" , module:'temp.Window' , isWindow:true , handler:this.onClick , scope:this} , '-' ,
+						{text:"人员管理" , iconCls:"icon_opera" , tooltip:"人员管理" , module:'temp.Window' , isWindow:true , handler:this.onClick , scope:this} , '-' ,
+						{text:"数据备份/还原" , module:'temp.Window' , isWindow:true} ,
+						{text:"查看系统日志" , module:'temp.Window' , isWindow:true} ,
 						'-' ,
-						{text:"使用帮助" , iconCls:"icon_help" , page:"help" , handler:this.gourl , scope:this} ,
-						{text:"关于本系统" , iconCls:"icon_about" ,  handler1:this.about , scope:this.parent}
+						{text:"使用帮助" , iconCls:"icon_help"  , module:'temp.Window' , isWindow:true , handler:this.onClick , scope:this} ,
+						{text:"关于本系统" , iconCls:"icon_about" , module:'temp.Window' , isWindow:true , handler:this.onClick , scope:this}
 					]}
 				} , '-' ,
-				{text:"退出" , iconCls:"ico_logout" , handler:function(){
+				*/
+				{text:"退出" , iconCls:"ico_logout" , module:'temp.Window' , isWindow:true , handler:function(){
 					$ADMIN.logout();
-				} , scope:this} , ' '
+				} ,  scope:this} , ' '
 			]
 		});
 		this.addEvents(

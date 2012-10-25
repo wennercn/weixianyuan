@@ -10,7 +10,7 @@ Ext.define('WXY.page.StatusBar' , {
 		var me = this;
 		me.items = [
 			'->' ,
-			{text:"当前用户:<b>"+$ADMIN.Name+"</b>" , id:"statusbar_person" , iconCls:"ico_admin" , menu:{
+			{text:"当前用户:<b>"+$ADMIN.Name+"</b>" , id:"statusbar_person" , iconCls:"ico_admin" , menu1:{
 				defaults: {handler:this.onClick , scope:this} ,
 				items:[
 					{text:"我的首页" , iconCls:"ico_home" , module:"person.Index" } , 

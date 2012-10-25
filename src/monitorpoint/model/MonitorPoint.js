@@ -57,11 +57,16 @@ Ext.define("WXY.monitorpoint.model.MonitorPoint" , {
 		var dangerTypeData = WXY.gis.Config.dangerTypeData;
 		return dangerTypeData[this.get("dangertype")];
 	} , 
+	getDangerStatusData: function(){
+		var dangerStatusData = WXY.gis.Config.dangerStatusData;
+		return dangerStatusData[this.get("status")];
+	} , 
 	//获取标注图标
 	getMarkerIcon: function(){
 		var dtd = this.getDangerTypeData();
 		var status = this.get("status");
-		var image = "res/img/"+dtd.code+"_"+status+".png";
+		var dsd = this.getDangerStatusData();
+		var image = "res/img/"+dtd.code+"_"+status+(status == 'warning' ? ".gif" : ".png");
 
 		var icon = new BMap.Icon(
 			image , 
@@ -157,5 +162,60 @@ Ext.define("WXY.monitorpoint.model.MonitorPoint" , {
 			failure: $failure ,
 			scope: this
 		});	
+	} , 
+
+
+	stop: function(){
+		MB.loading("停止"+this.get("dangername")+"监控");
+		setTimeout(function(){
+			MB.hide();
+			PM.msg("成功" , "已经停止监控!");
+		} , 1000);	
+	} , 
+
+	stopWarning: function(){
+		var me = this;
+		MB.loading("忽略"+this.get("dangername")+"当前的预警");
+		setTimeout(function(){
+			me.set("status" , "ok");
+			me.commit();
+			MB.hide();
+			PM.msg("成功" , "当前已经忽略"+me.get("dangername")+"预警!");
+		} , 500);
+	} , 
+
+	detail: function(){
+		if (!this.detailWin) {
+			this.detailWin = Ext.create("WXY.util.AppWindow" , {
+				width:500 , 
+				height:300 , 
+				iconCls:"ico_detail" , 
+				items:[
+					{xtype:"panel"	 , bodyPadding:10}
+				]
+			})
+		}
+		
+		if (!this.detailTemplate) {
+			this.detailTemplate = new Ext.XTemplate(
+				'<ul style="line-height:200%">' , 
+				'<li style="border-bottom:#eee solid 1px">ID: {dangerid}</li>' ,
+				'<li style="border-bottom:#eee solid 1px">状态: {status}</li>' ,
+				'<li style="border-bottom:#eee solid 1px">类别: {dangertypename}</li>' ,
+				'<li style="border-bottom:#eee solid 1px">名称: {dangername}</li>' ,
+				'<li style="border-bottom:#eee solid 1px">编码: {dangercode}</li>' ,
+				'<li style="border-bottom:#eee solid 1px">坐标: {lnglat}</li>' ,
+				'<li style="border-bottom:#eee solid 1px">位置: {location}</li>' ,
+				'<li style="border-bottom:#eee solid 1px">地址: {address}</li>' ,
+				'<li style="border-bottom:#eee solid 1px">备注: {description}</li>' ,
+				'</ul>'
+			)			
+		}		
+		this.detailWin.show();				
+		this.detailWin.setTitle("查看 "+this.get("dangername")+" 信息");
+
+		var p = this.detailWin.down("panel");
+		p.update(this.detailTemplate.apply(this.data));	
 	}
+
 })

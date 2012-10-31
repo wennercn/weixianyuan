@@ -50,7 +50,7 @@ Ext.define('WXY.ux.BaiDuMapPanel', {
             var ols = map.getOverlays();
             if (ols.length == 1){
                 me.fireEvent('mapload');
-                me.setLoading(false);           
+                me.setLoading(false);
             }
         })
 

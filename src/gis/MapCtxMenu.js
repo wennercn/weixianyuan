@@ -5,7 +5,7 @@ Ext.define("WXY.gis.MapCtxMenu" , {
 		var me = this;
 		var items = [];
 		items.push(
-			{text:"添加新监控点" , iconCls:'ico_add' , handler:this.addMP , scope:this}
+			{text:"添加设备点" , iconCls:'ico_add' , value:"point" , handler:this.addMP , scope:this}
 		);
 
 		me.items = items;
@@ -21,11 +21,13 @@ Ext.define("WXY.gis.MapCtxMenu" , {
 	} , 
 
 	//添加监控点
-	addMP: function(){
+	addMP: function(btn){
 		var mpw = Ext.getCmp("monitorpoint-window");
 		var data = this.point;
 		var point = data.point;
+		var kind = btn.value;
 		mpw.showForm({
+			kind: kind , 
 			data:{lnglat:point.lng+","+point.lat}
 		});
 	} , 

@@ -136,6 +136,7 @@
 			{moduleText: menu.text || ""}
 		);
 
+
 		//如果是弹出一个浏览器窗口window.open
 		if (menu.isOutUrl) {
 			window.open(menu.outUrl , "baseinfo" , "width=700,height=500,top=100,left=100");

@@ -39,6 +39,7 @@ Ext.define("WXY.gis.MarkerCtxMenu" , {
 	editMP: function(){
 		var mpw = Ext.getCmp("monitorpoint-window");
 		mpw.showForm({
+			kind: "point" , 
 			record: this.record
 		});
 	} , 

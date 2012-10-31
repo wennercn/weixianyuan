@@ -1,9 +1,9 @@
 /**
-* 设备点表单
+* 工作区表单
 */
-Ext.define("WXY.monitorpoint.PointForm" , {
+Ext.define("WXY.monitorpoint.SpaceForm" , {
     extend: 'Ext.form.Panel',
-    xtype: 'monitorpointform-point' , 
+    xtype: 'monitorpointform-space' , 
 	bodyPadding:15 ,
 	defaults: {
 		labelAlign:"left" ,
@@ -18,16 +18,14 @@ Ext.define("WXY.monitorpoint.PointForm" , {
 		var req = "<span style='color:red'>*</span>";
 		Ext.apply(this , {
 			items: [
-				{xtype:"mycombo" , fieldLabel:"类型" , name:"dangertype" , _data:configData.dangerTypeComboData , 
-					allowBlank:false , value:'1' , editable:false , afterLabelTextTpl:req} , 
+				{xtype:"combobox" , fieldLabel:"所属作业区" , name:"parentid", store:"area-store" , editable:false , 
+					valueField:"dangerid" , displayField:"dangername" , queryMode: 'local' , allowBlank:false , afterLabelTextTpl:req} ,
 				{fieldLabel:"名称"  , name:"dangername" , allowBlank:false , afterLabelTextTpl:req},
-				{fieldLabel:"物理编码"  ,  name:"dangercode" , allowBlank:false , afterLabelTextTpl:req} ,
-				{fieldLabel:"位置坐标"  , name:"lnglat" , allowBlank:false , readOnly:true ,afterLabelTextTpl:req} , 
-				{xtype:"mycombo" , fieldLabel:"状态" , name:"status" , _data:[['ok' , '正常'] , ['disable' , '停用']] , value:'ok' , editable:false} , 
-				{xtype:"mycombo" , fieldLabel:"所在位置" , name:"location" , _data:configData.locationComboData} , 
+				{fieldLabel:"区域坐标"  , name:"lnglats" , allowBlank:false , readOnly:true ,afterLabelTextTpl:req} , 
 				{fieldLabel:"地址说明"  , name:"address"} ,
 				{fieldLabel:"备注"  , xtype:"textarea" , name:"description"},
-				{xtype:'hidden' , name:'dangerid' , value:0}
+				{xtype:'hidden' , name:'dangerid' , value:0},
+				{xtype:'hidden' , name:'kind' , value:"space"}
 			] ,
 			dockedItems: [
 				{xtype:"toolbar" , dock:"top" , items:[
@@ -43,7 +41,7 @@ Ext.define("WXY.monitorpoint.PointForm" , {
 		config = config || {};
 		this.record = null;
 		this.win = this.up("window");
-		this.win.setTitle("添加监控点");
+		this.win.setTitle("添加工作区");
 		this.win.setIconCls('ico_add');
 		if (config.disableInit) return;
 		this.getForm().reset();
@@ -52,7 +50,7 @@ Ext.define("WXY.monitorpoint.PointForm" , {
 			values = config.data;
 		}else if(config.record){
 			this.record = config.record;
-			this.win.setTitle("修改 " +this.record.get("dangername")+ " 信息");
+			this.win.setTitle("修改工作区 " +this.record.get("dangername")+ " 信息");
 			this.win.setIconCls('ico_edit');
 			values = this.record.data;
 			//this.getForm().loadRecord(this.record);
@@ -76,51 +74,17 @@ Ext.define("WXY.monitorpoint.PointForm" , {
 			return;
 		}
 		var fv = f.getValues();
-		if (fv.lnglat.indexOf(",")==-1){
-			MB.alert("错误","请选择监控点的坐标信息!"  , this);
-			return;
-		}
-		var lnglat = fv.lnglat.split(",");
-		fv.lng = lnglat[0];
-		fv.lat = lnglat[1];
-
 		this.curMPValues = fv;
-
 		MB.loading("保存信息");
-
-		/*
-		var pa = {};
-		var xml = json2xml(fv , "form");
-		pa.data = escape(xml);
-		*/
 
 		Ext.Ajax.request({
 			url: this.win.wsUrl+"Save" , //(this.record ? "UpdateKnowledge" : "AddKnowledge") ,
 			params: $params(fv) ,
-			success: this._save,
+			success: function(data){
+				this.fireEvent("aftersave" , data , this.curMPValues);
+			},
 			failure: $failure ,
 			scope: this
 		});
-	} ,
-
-	_save: function(o){
-		var bd = $backNode(o);
-		if (bd.isok){
-			MB.hide();
-			PM.msg("保存成功" , "保存信息成功!");
-			var store = Ext.data.StoreManager.lookup('mp-store');
-			if (this.curMPValues.dangerid == 0){
-				var reader = store.getProxy().getReader();
-				var rs = reader.readRecords(bd.data);	
-				store.add(rs.records);							
-			}else{
-				this.record.set(this.curMPValues);
-				this.record.commit();
-			}
-			this.win.hide();
-		}else{
-			MB.alert("错误","保存信息时发生错误!<br>"+bd.getErrorInfo());
-		}
 	}
-
 });

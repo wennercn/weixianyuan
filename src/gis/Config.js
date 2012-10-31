@@ -4,9 +4,16 @@
 Ext.define("WXY.gis.Config" , {
 	singleton: true , 
 
+	dangerKindData: {
+		area: {name:'区域' , code:'area'} , 
+		space: {name:'工作区' , code:'space'} , 
+		point: {name:'设备点' , code:'point'}
+	} , 
+
 	dangerTypeData:{
-		1: {name:'传感器' , code:'sensor'} , 
-		2: {name:'监控摄像头' , code:'webcam'}
+		sensor: {name:'传感器' , code:'sensor'} , 
+		webcam: {name:'监控摄像头' , code:'webcam'} , 
+		machine: {name:'控制设备' , code:'machine'}
 	} , 
 
 	dangerStatusData: {
@@ -21,10 +28,13 @@ Ext.define("WXY.gis.Config" , {
 
 	constructor: function(config) {
 		var me = this;
-		me.dangerTypeComboData = [];
 
+		me.dangerTypeComboData = [];
 		Ext.iterate(me.dangerTypeData , function(key , v){
 			me.dangerTypeComboData.push([key , v.name]);
 		});
+
+		me.dangerKindComboData = [];
+
     }	
 });

@@ -3,6 +3,9 @@ Ext.define("WXY.monitorpoint.model.MonitorPoint" , {
 	idProperty: 'dangerid' , 
 	fields:[
 		{name:"dangerid" , mapping:"dangerid"},
+		{name:"parentid" , mapping:"parentid"},
+		{name:"parentname" , mapping:"parentname"},
+		{name:"parenttype" , mapping:"parenttype"},
 		{name:"dangername" , mapping:"dangername"},
 		{name:"dangercode" , mapping:"dangercode"},
 		{name:"dangertype" , mapping:"dangertype"},
@@ -21,6 +24,12 @@ Ext.define("WXY.monitorpoint.model.MonitorPoint" , {
 		{name:"lnglat" , convert:function(v , r){
 			return [r.get("lng") , r.get('lat')].join(",");
 		}},
+		{name:"lnglats" , mapping:"lnglats"} , 
+		{name:"kind" , mapping:"kind"} , 
+		{name:"kindname" , convert:function(v , r){
+			var kind = WXY.gis.Config.dangerKindData[r.get("kind")]
+			return kind ? kind.name : "";
+		}} , 
 		{name:"status" , mapping:"status"}
 	] , 
 

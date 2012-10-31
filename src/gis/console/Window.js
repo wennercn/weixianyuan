@@ -28,7 +28,7 @@ Ext.define("WXY.gis.console.Window" , {
     initComponent: function(){
         var me = this;
 
-        me.list = Ext.create("WXY.monitorpoint.List");
+        me.list = Ext.create("WXY.monitorpoint.Tree");
 
         me.items = [
             me.list

@@ -18,14 +18,16 @@ Ext.define("WXY.monitorpoint.PointForm" , {
 		var req = "<span style='color:red'>*</span>";
 		Ext.apply(this , {
 			items: [
+				{xtype:"combobox" , fieldLabel:"所属作业区" , name:"parentid", store:"space-store" , editable:false , 
+					valueField:"dangerid" , displayField:"dangername" , queryMode: 'local' , allowBlank:false , afterLabelTextTpl:req} ,
 				{xtype:"mycombo" , fieldLabel:"类型" , name:"dangertype" , _data:configData.dangerTypeComboData , 
-					allowBlank:false , value:'1' , editable:false , afterLabelTextTpl:req} , 
+					allowBlank:false , value:'sensor' , editable:false , afterLabelTextTpl:req} , 
 				{fieldLabel:"名称"  , name:"dangername" , allowBlank:false , afterLabelTextTpl:req},
 				{fieldLabel:"物理编码"  ,  name:"dangercode" , allowBlank:false , afterLabelTextTpl:req} ,
 				{fieldLabel:"位置坐标"  , name:"lnglat" , allowBlank:false , readOnly:true ,afterLabelTextTpl:req} , 
 				{xtype:"mycombo" , fieldLabel:"状态" , name:"status" , _data:[['ok' , '正常'] , ['disable' , '停用']] , value:'ok' , editable:false} , 
-				{xtype:"mycombo" , fieldLabel:"所在位置" , name:"location" , _data:configData.locationComboData} , 
-				{fieldLabel:"地址说明"  , name:"address"} ,
+				//{xtype:"mycombo" , fieldLabel:"所在位置" , name:"location" , _data:configData.locationComboData} , 
+				//{fieldLabel:"地址说明"  , name:"address"} ,
 				{fieldLabel:"备注"  , xtype:"textarea" , name:"description"},
 				{xtype:'hidden' , name:'dangerid' , value:0}
 			] ,
@@ -97,30 +99,11 @@ Ext.define("WXY.monitorpoint.PointForm" , {
 		Ext.Ajax.request({
 			url: this.win.wsUrl+"Save" , //(this.record ? "UpdateKnowledge" : "AddKnowledge") ,
 			params: $params(fv) ,
-			success: this._save,
+			success: function(data){
+				this.fireEvent("aftersave" , data , this.record , this.curMPValues);
+			},
 			failure: $failure ,
 			scope: this
 		});
-	} ,
-
-	_save: function(o){
-		var bd = $backNode(o);
-		if (bd.isok){
-			MB.hide();
-			PM.msg("保存成功" , "保存信息成功!");
-			var store = Ext.data.StoreManager.lookup('mp-store');
-			if (this.curMPValues.dangerid == 0){
-				var reader = store.getProxy().getReader();
-				var rs = reader.readRecords(bd.data);	
-				store.add(rs.records);							
-			}else{
-				this.record.set(this.curMPValues);
-				this.record.commit();
-			}
-			this.win.hide();
-		}else{
-			MB.alert("错误","保存信息时发生错误!<br>"+bd.getErrorInfo());
-		}
 	}
-
 });

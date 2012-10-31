@@ -47,7 +47,7 @@ Ext.define("WXY.gis.Index" , {
 			dockedItems:[
 				{xtype:"maptoolbar" , parent: me}
 			]
-		})
+		});
 		
 		me.on({
 			mapload: this.showConsole , 
@@ -109,8 +109,13 @@ Ext.define("WXY.gis.Index" , {
 		var map = me.map;
 		//清除所有标记
 		map.clearOverlays();
-		//加入标记
-		this.addMarkerFromRecord(me.mpStore.getRange());
+		//加入标记		
+		//this.addMarkerFromRecord(me.mpStore.getRange()); //列表
+		//树
+		var root = me.mpStore.getRootNode();
+		root.cascadeBy(function(cnode) {
+			this.addMarkerFromRecord(cnode);
+		} , this);
 	} , 
 
 	//store添加

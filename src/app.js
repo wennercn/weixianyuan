@@ -46,6 +46,7 @@ Ext.define('WXY.App' , {
 			storeId:'mp-store' , 
 			url: $CONFIG.wsPath+"monitorpoint.asmx/GetTree"
 		});
+
 		//AREA STORE
 		var areaStore = Ext.create("WXY.monitorpoint.store.MonitorPoint" , {
 			storeId: "area-store"
@@ -66,17 +67,25 @@ Ext.define('WXY.App' , {
 		//mpstore更新 , 更新其他两个STORE
 		store.on({
             load: function(){
+            	areaStore.removeAll();
+            	spaceStore.removeAll();
 				var root = store.getRootNode();
 				root.cascadeBy(function(cnode) {
 					if (canInsert(cnode , "area")) areaStore.add(createRecord(cnode.data));
 					if (canInsert(cnode , "space")) spaceStore.add(createRecord(cnode.data));
 				} , this);
             } ,
+            append: function(ds , rs){
+            	Ext.each(rs , function(cnode){
+					if (canInsert(cnode , "area")) areaStore.add(createRecord(cnode.data));
+					if (canInsert(cnode , "space")) spaceStore.add(createRecord(cnode.data));
+            	});
+            } , 
             add: function(ds , rs){
             	Ext.each(rs , function(cnode){
 					if (canInsert(cnode , "area")) areaStore.add(createRecord(cnode.data));
 					if (canInsert(cnode , "space")) spaceStore.add(createRecord(cnode.data));
-            	})
+            	});
             },
             remove: function(ds , rs){
             	var id = rs.get("dangerid");
@@ -85,9 +94,9 @@ Ext.define('WXY.App' , {
             },
             update: function(ds , record , opera){
 				if (opera == 'commit') return;
-            	var id = rs.get("dangerid");
-				if (canInsert(rs , "area")) areaStore.getById(id).set(record.data);
-				if (canInsert(rs , "space")) spaceStore.getById(id).get(record.data);
+            	var id = record.get("dangerid");
+				if (canInsert(record , "area")) areaStore.getById(id).set(record.data);
+				if (canInsert(record , "space")) spaceStore.getById(id).get(record.data);
             },
             clear: function(){
             	areaStore.removeAll();

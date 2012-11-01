@@ -4,6 +4,7 @@ Ext.define("WXY.monitorpoint.model.MonitorPoint" , {
 	fields:[
 		{name:"dangerid" , mapping:"dangerid"},
 		{name:"parentid" , mapping:"parentid"},
+		{name:"parentId" , mapping:"parentid"},
 		{name:"parentname" , mapping:"parentname"},
 		{name:"parenttype" , mapping:"parenttype"},
 		{name:"dangername" , mapping:"dangername"},
@@ -30,10 +31,61 @@ Ext.define("WXY.monitorpoint.model.MonitorPoint" , {
 			var kind = WXY.gis.Config.dangerKindData[r.get("kind")]
 			return kind ? kind.name : "";
 		}} , 
-		{name:"status" , mapping:"status"}
+		{name:"status" , mapping:"status"} , 
+
+		//{name:"loaded" , defaultValue: true} , 
+		{name:"expand"} , 
+		{name:"leaf"}
 	] , 
 
-	setMarker:function(options){
+
+	createOverlay:function(parent , options){
+		var record = this;
+		var kind = this.get("kind");
+		var overlay = false;
+		switch (kind){
+			case "area":
+				break;
+			case "space":
+				overlay = this.createPolygon(parent , options);
+				break;
+			case "point":
+				overlay = this.createMarker(parent , options);
+				break;
+		}
+
+		return overlay;
+	} , 
+
+
+	createPolygon: function(parent , options){
+		var record = this;
+		var lnglats = record.get("lnglats");
+		if (Ext.isEmpty(lnglats)) return false;
+
+		var path = [];
+		Ext.each(lnglats.split(";") , function(n){
+			var point = n.split(",");
+        	path.push(new BMap.Point(point[0], point[1]));
+		});
+
+		var polygonOptions = {
+			strokeColor:options.strokeColor || "blue",
+			strokeOpacity:options.strokeOpacity || 0.8,
+			strokeWeight:options.strokeWeight || 2,
+			fillColor:options.fillColor || "blue" || "#1791fc",
+			fillOpacity:options.fillOpacity || 0.4
+		};
+
+		var polygon =  new BMap.Polygon(path , polygonOptions);
+		polygon.record = record;
+        record.polygon = polygon;
+
+		return polygon;
+	} , 
+
+	createMarker: function(parent , options){
+
 		var record = this;
         var lng = record.get("lng");
         var lat = record.get("lat");
@@ -60,8 +112,13 @@ Ext.define("WXY.monitorpoint.model.MonitorPoint" , {
             marker.setLabel(label);
         }
 
-        return marker;
+        marker.setAnimation(BMAP_ANIMATION_DROP);
+        marker.addEventListener("rightclick" , function(e){
+            parent.fireEvent('markerctxmenu' , e , record , e.domEvent);
+        }); 
+		return marker;
 	} , 
+
 	getDangerTypeData: function(){
 		var dangerTypeData = WXY.gis.Config.dangerTypeData;
 		return dangerTypeData[this.get("dangertype")];
@@ -116,6 +173,26 @@ Ext.define("WXY.monitorpoint.model.MonitorPoint" , {
 		} , this);
 	} , 
 
+	//更新了坐标
+	updateLng: function(){
+
+	} , 
+
+	updateLat: function(){
+
+	} , 
+
+	updateLngLat: function(){
+
+
+	} , 
+
+	//更新了区域的位置
+	updateLngLats: function(){
+		alert(111111);
+
+	} , 
+
 	//更新类型
 	updateDangertype: function(){
 		this.updateStatus();
@@ -131,21 +208,30 @@ Ext.define("WXY.monitorpoint.model.MonitorPoint" , {
 
 	//移动到当前点
 	panToMarker: function(){
-		var marker = this.marker;
-		if (!marker) return;
-		var map = marker.getMap();
-		if (!map) return;
-		var point = marker.point;
-		if (map.curMarker){
-			map.prevMarker = map.curMarker;
-			map.prevMarker.setAnimation()			
-		}
-		map.curMarker = marker;
-		map.panTo(point);
-        marker.setAnimation(BMAP_ANIMATION_BOUNCE);
-        setTimeout(function(){
-        	marker.setAnimation()
-        } , 5000);
+		if (this.marker){
+			var marker = this.marker;
+			//if (!marker) return;
+			var map = marker.getMap();
+			if (!map) return;
+			var point = marker.point;
+			if (map.curMarker){
+				map.prevMarker = map.curMarker;
+				map.prevMarker.setAnimation()			
+			}
+			map.curMarker = marker;
+			map.panTo(point);
+	        marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+	        setTimeout(function(){
+	        	marker.setAnimation()
+	        } , 5000);
+	   	} else if (this.polygon){
+	   		var polygon = this.polygon;
+			var map = polygon.getMap();
+			if (!map) return;
+			var point = polygon.getBounds().getCenter();
+			map.panTo(point);	
+
+	   	}
 	} , 
 
 	//删除
@@ -165,7 +251,14 @@ Ext.define("WXY.monitorpoint.model.MonitorPoint" , {
 					return;
 				}
 				PM.msg("成功" , "删除信息成功!");
-				this.store.remove(this);
+				//从STORE中删除
+				var storeClass = Ext.getClassName(this.store);
+				if (storeClass.indexOf("NodeStore")>-1){	//树
+					this.remove();
+				}else{
+					this.store.remove(this);	//普通
+				}
+
 				MB.hide();
 			},
 			failure: $failure ,

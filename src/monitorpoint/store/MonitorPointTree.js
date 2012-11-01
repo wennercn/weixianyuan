@@ -29,8 +29,8 @@ Ext.define('WXY.monitorpoint.store.MonitorPointTree', {
 		this.callParent([config]);
 	} ,
 	root: {
-		start_id: "1" ,
-		start_name: "所有服务标准" ,
+		dangerid: "0" ,
+		dangername: "所有区域" ,
 		expanded:true
 	} ,
 

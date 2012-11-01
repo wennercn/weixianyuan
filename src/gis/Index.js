@@ -1,5 +1,6 @@
 Ext.define("WXY.gis.Index" , {
 	extend:"WXY.ux.BaiDuMapPanel" ,
+	xtype: "gishome" , 
 	requires:[
 		'WXY.gis.Config' , 
 		'WXY.gis.Toolbar' , 
@@ -27,6 +28,7 @@ Ext.define("WXY.gis.Index" , {
 		me.mpStore.on({
             load: me.onStoreRefresh ,
             add: me.onStoreAdd,
+            append: me.onStoreAdd , 
             remove: me.onStoreRemove,
             update: me.onStoreUpdate,
             clear: me.onStoreClear , 

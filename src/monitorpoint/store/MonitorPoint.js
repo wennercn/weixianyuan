@@ -10,7 +10,7 @@ Ext.define("WXY.monitorpoint.store.MonitorPoint" , {
 			extraParams: config.extraParams || {} ,
 			reader: {
 				type: 'xml',
-				record: config.recordPath || 'R'
+				record: config.recordPath || 'Danger'
 			} ,
 			listeners: {
 				"exception" : function(proxy , data , operation){

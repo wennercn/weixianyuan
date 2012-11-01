@@ -65,3 +65,4 @@ db
 *.scc
 *.scc
 *.scc
+/res\img/*.db

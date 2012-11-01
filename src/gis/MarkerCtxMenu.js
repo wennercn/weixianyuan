@@ -29,7 +29,11 @@ Ext.define("WXY.gis.MarkerCtxMenu" , {
 		var ev = cfg.ev;
 		this.record = record;
 		this.showAt(cfg.x , cfg.y);
-		this.getComponent(0).setText('<b style="color:blue">'+record.get("dangertypename")+":"+record.get("dangername")+"</b>&nbsp;&nbsp;&nbsp;&nbsp;");
+
+		var titles = [record.get("kindname") , record.get("dangertypename") , record.get("dangername")];
+		var title = Ext.Array.clean(titles).join(">");
+
+		this.getComponent(0).setText('<b style="color:blue">'+title+"</b>&nbsp;&nbsp;&nbsp;&nbsp;");
 
 		ev.preventDefault();
 		ev.stopPropagation();
@@ -37,9 +41,10 @@ Ext.define("WXY.gis.MarkerCtxMenu" , {
 
 	//编辑监控点
 	editMP: function(){
+		var kind = this.record.get("kind");
 		var mpw = Ext.getCmp("monitorpoint-window");
 		mpw.showForm({
-			kind: "point" , 
+			kind: kind, 
 			record: this.record
 		});
 	} , 

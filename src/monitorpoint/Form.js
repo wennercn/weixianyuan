@@ -1,9 +1,8 @@
 /**
-* 设备点表单
+* 表单
 */
-Ext.define("WXY.monitorpoint.PointForm" , {
+Ext.define("WXY.monitorpoint.Form" , {
     extend: 'Ext.form.Panel',
-    xtype: 'monitorpointform-point' , 
 	bodyPadding:15 ,
 	defaults: {
 		labelAlign:"left" ,
@@ -17,18 +16,7 @@ Ext.define("WXY.monitorpoint.PointForm" , {
     	var configData = WXY.gis.Config;
 		var req = "<span style='color:red'>*</span>";
 		Ext.apply(this , {
-			items: [
-				{xtype:"mycombo" , fieldLabel:"类型" , name:"dangertype" , _data:configData.dangerTypeComboData , 
-					allowBlank:false , value:'1' , editable:false , afterLabelTextTpl:req} , 
-				{fieldLabel:"名称"  , name:"dangername" , allowBlank:false , afterLabelTextTpl:req},
-				{fieldLabel:"物理编码"  ,  name:"dangercode" , allowBlank:false , afterLabelTextTpl:req} ,
-				{fieldLabel:"位置坐标"  , name:"lnglat" , allowBlank:false , readOnly:true ,afterLabelTextTpl:req} , 
-				{xtype:"mycombo" , fieldLabel:"状态" , name:"status" , _data:[['ok' , '正常'] , ['disable' , '停用']] , value:'ok' , editable:false} , 
-				{xtype:"mycombo" , fieldLabel:"所在位置" , name:"location" , _data:configData.locationComboData} , 
-				{fieldLabel:"地址说明"  , name:"address"} ,
-				{fieldLabel:"备注"  , xtype:"textarea" , name:"description"},
-				{xtype:'hidden' , name:'dangerid' , value:0}
-			] ,
+			items: this.createItems() ,
 			dockedItems: [
 				{xtype:"toolbar" , dock:"top" , items:[
 					'->' , 
@@ -40,10 +28,11 @@ Ext.define("WXY.monitorpoint.PointForm" , {
 	} , 
 	//初始化
 	initMain: function(config){	
+		var dangerKindData = WXY.gis.Config.dangerKindData[this.kind];
 		config = config || {};
 		this.record = null;
 		this.win = this.up("window");
-		this.win.setTitle("添加监控点");
+		this.win.setTitle("添加"+dangerKindData.name);
 		this.win.setIconCls('ico_add');
 		if (config.disableInit) return;
 		this.getForm().reset();
@@ -52,21 +41,17 @@ Ext.define("WXY.monitorpoint.PointForm" , {
 			values = config.data;
 		}else if(config.record){
 			this.record = config.record;
-			this.win.setTitle("修改 " +this.record.get("dangername")+ " 信息");
+			this.win.setTitle("修改"+dangerKindData.name+" " +this.record.get("dangername")+ " 信息");
 			this.win.setIconCls('ico_edit');
 			values = this.record.data;
-			//this.getForm().loadRecord(this.record);
 		}
 		this.getForm().setValues(values);
-
-		/*
-		var prevPanel = this.win.prevPanel;
-		if (!prevPanel || prevPanel == this){
-			this.down("button[iconCls=ico_back]").hide();
-		}
-		*/
 	} , 
 
+	createItems: Ext.emptyFn , 
+	checkValueValid: function(){
+		return true;
+	} , 
 	//保存
 	save: function(){
 		var f = this.getForm();
@@ -76,26 +61,11 @@ Ext.define("WXY.monitorpoint.PointForm" , {
 			return;
 		}
 		var fv = f.getValues();
-		if (fv.lnglat.indexOf(",")==-1){
-			MB.alert("错误","请选择监控点的坐标信息!"  , this);
-			return;
-		}
-		var lnglat = fv.lnglat.split(",");
-		fv.lng = lnglat[0];
-		fv.lat = lnglat[1];
-
+		if (!this.checkValueValid(fv)) return;
 		this.curMPValues = fv;
-
 		MB.loading("保存信息");
-
-		/*
-		var pa = {};
-		var xml = json2xml(fv , "form");
-		pa.data = escape(xml);
-		*/
-
 		Ext.Ajax.request({
-			url: this.win.wsUrl+"Save" , //(this.record ? "UpdateKnowledge" : "AddKnowledge") ,
+			url: this.win.wsUrl+"Save" ,
 			params: $params(fv) ,
 			success: this._save,
 			failure: $failure ,
@@ -109,12 +79,39 @@ Ext.define("WXY.monitorpoint.PointForm" , {
 			MB.hide();
 			PM.msg("保存成功" , "保存信息成功!");
 			var store = Ext.data.StoreManager.lookup('mp-store');
+			var areaStore = Ext.data.StoreManager.lookup('area-store');
 			if (this.curMPValues.dangerid == 0){
-				var reader = store.getProxy().getReader();
-				var rs = reader.readRecords(bd.data);	
-				store.add(rs.records);							
+				var reader = areaStore.getProxy().getReader();
+				var rs = reader.readRecords(bd.data);
+				if (Ext.getClassName(store).indexOf("Tree")>-1){					
+					var node = rs.records[0];
+
+					node.set("expand" , false);
+					node.set("loaded" , true);
+					node.set("leaf" , node.get("kind") == "point");
+
+					var parentId = node.get("parentid");
+					var parentNode = store.getNodeById(parentId);
+					if (parentNode){
+						parentNode.appendChild(node);
+					}
+				}else{
+					store.add(rs.records);							
+				}
+
 			}else{
 				this.record.set(this.curMPValues);
+				//树更新
+				if (Ext.getClassName(store).indexOf("Tree")>-1){	
+					var changes = this.record.getChanges();
+					//如果更新了父节点
+					if (changes.parentid && changes.parentid != ""){
+						var parentNode = store.getNodeById(changes.parentid);
+						parentNode.appendChild(this.record);
+					}
+					//如果更新了坐标
+					
+				}
 				this.record.commit();
 			}
 			this.win.hide();

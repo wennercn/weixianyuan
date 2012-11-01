@@ -4,7 +4,7 @@ Ext.define('WXY.monitorpoint.Tree', {
 	autoScroll: true ,
 	hideHeaders: true ,
 	rootVisible: false,
-
+	useArrows: true , 
 	columns: [
 		{text:'status' , width:25 , dataIndex:'status' , renderer:function(v , td , r){
 			td.tdCls = 'mp-grid-status ico_status_'+v;

@@ -29,6 +29,9 @@ Ext.define('WXY.ux.BaiDuMapPanel', {
         me.callParent()
         me.setLoading("读取数据信息");
         me.createMap();
+        me.setLoading(false);
+        me.fireEvent('mapload');
+        me.setLoading(false);
     },
 
     //创建地图
@@ -50,7 +53,7 @@ Ext.define('WXY.ux.BaiDuMapPanel', {
             var ols = map.getOverlays();
             if (ols.length == 1){
                 me.fireEvent('mapload');
-                me.setLoading(false);
+                //me.setLoading(false);
             }
         })
 
@@ -113,6 +116,7 @@ Ext.define('WXY.ux.BaiDuMapPanel', {
                     var marker = me.getOverlayByElement(tip.triggerElement);
                     if (!marker) return false;
                     var record = marker.record;
+                    if (!record) return false;
                     tip.update(me.tipTemplate.apply(record.data));
                 }
             }
@@ -158,7 +162,7 @@ Ext.define('WXY.ux.BaiDuMapPanel', {
 
     removeMarkerFromRecord: function(record){
         var map = this.map;
-        map.removeOverlay(record.marker);
+        map.removeOverlay(record.marker || record.polygon);
     } , 
 
     addMarkerFromRecord: function(record , options){
@@ -172,20 +176,14 @@ Ext.define('WXY.ux.BaiDuMapPanel', {
             return;
         }
         var map = me.map;
+
         //添加标注点
         //TODO: 改为自定义的标记
+        var overlay = record.createOverlay(me , options);
+        if (!overlay) return;
+        map.addOverlay(overlay);
 
-        var marker = record.setMarker(options);
-        if (!marker) return;
-
-        map.addOverlay(marker);
-        marker.setAnimation(BMAP_ANIMATION_DROP);
-
-        marker.addEventListener("rightclick" , function(e){
-            me.fireEvent('markerctxmenu' , e , record , e.domEvent);
-        });
-
-        return marker;
+        return overlay;
 
     }
 });
